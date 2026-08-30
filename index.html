@@ -81,6 +81,7 @@
     cursor: pointer;
     transition: all 0.2s;
     letter-spacing: 0.2px;
+    display: none;
   }
   .admin-btn:active { background: var(--accent-soft2); }
 
@@ -139,10 +140,39 @@
     box-shadow: 0 4px 12px rgba(108,63,197,0.28);
   }
 
+  /* ── SUBCATEGORY BAR ── */
+  .subcat-bar {
+    display: flex; gap: 7px;
+    overflow-x: auto;
+    padding: 8px 16px 0;
+    scrollbar-width: none;
+  }
+  .subcat-bar::-webkit-scrollbar { display: none; }
+  .subcat-bar:empty { display: none; }
+
+  .subcat-chip {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 5px 13px;
+    font-size: 12px; font-weight: 700;
+    color: var(--text2);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.18s;
+    box-shadow: var(--shadow-card);
+  }
+  .subcat-chip.active {
+    background: var(--accent-soft2);
+    border-color: var(--accent2);
+    color: var(--accent);
+  }
+
   /* ── FILTER ROW ── */
   .filter-row {
     display: flex; gap: 7px;
-    padding: 10px 16px 0;
+    padding: 8px 16px 0;
     scrollbar-width: none;
     overflow-x: auto;
   }
@@ -318,7 +348,11 @@
   .modal-cat-label {
     font-size: 11px; font-weight: 800;
     color: var(--accent); text-transform: uppercase;
-    letter-spacing: 0.7px; margin-bottom: 6px;
+    letter-spacing: 0.7px; margin-bottom: 4px;
+  }
+  .modal-subcat-label {
+    font-size: 11px; font-weight: 700;
+    color: var(--muted); margin-bottom: 6px;
   }
 
   .modal-name { font-size: 24px; font-weight: 900; margin-bottom: 10px; color: var(--text); }
@@ -373,6 +407,67 @@
   }
   .close-btn:active { background: var(--border); }
 
+  /* ── ORDER FORM MODAL ── */
+  .order-form-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(20,10,50,0.5);
+    z-index: 150; align-items: flex-end;
+    backdrop-filter: blur(6px);
+  }
+  .order-form-overlay.open { display: flex; }
+  .order-form-modal {
+    background: var(--surface);
+    border-radius: 26px 26px 0 0;
+    padding: 22px 20px 44px;
+    width: 100%; max-height: 85vh;
+    overflow-y: auto;
+    animation: slideUp 0.28s cubic-bezier(.32,1,.5,1);
+    position: relative;
+  }
+  .order-form-title { font-size: 20px; font-weight: 900; margin-bottom: 6px; }
+  .order-form-subtitle { font-size: 13px; color: var(--text2); margin-bottom: 22px; line-height: 1.5; }
+  .order-product-preview {
+    background: var(--accent-soft);
+    border: 1.5px solid var(--border);
+    border-radius: 13px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .order-product-preview-img {
+    width: 52px; height: 52px;
+    background: var(--surface2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; overflow: hidden; flex-shrink: 0;
+  }
+  .order-product-preview-img img { width: 100%; height: 100%; object-fit: cover; }
+  .order-product-preview-name { font-size: 14px; font-weight: 800; color: var(--text); }
+  .order-product-preview-price { font-size: 16px; font-weight: 900; color: var(--accent); margin-top: 2px; }
+  .order-form-label { display: block; font-size: 12px; font-weight: 800; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; margin-top: 16px; }
+  .order-form-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 13px;
+    padding: 14px 16px;
+    color: var(--text); font-size: 15px; font-weight: 600;
+    outline: none; transition: border-color 0.18s, box-shadow 0.18s;
+    font-family: inherit;
+  }
+  .order-form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .order-form-input::placeholder { color: var(--muted); font-weight: 500; }
+  .order-submit-btn {
+    width: 100%; margin-top: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white; border: none;
+    border-radius: 16px; padding: 16px;
+    font-size: 16px; font-weight: 900;
+    cursor: pointer; transition: opacity 0.2s;
+    box-shadow: 0 6px 18px rgba(108,63,197,0.30);
+  }
+  .order-submit-btn:active { opacity: 0.85; }
+
   /* ── ADMIN PANEL ── */
   .admin-panel {
     display: none; position: fixed; inset: 0;
@@ -404,8 +499,8 @@
   }
   .admin-tab {
     flex: 1; background: none; border: none;
-    border-radius: 11px; padding: 10px 6px;
-    color: var(--muted); font-size: 12px; font-weight: 800;
+    border-radius: 11px; padding: 10px 4px;
+    color: var(--muted); font-size: 11px; font-weight: 800;
     cursor: pointer; transition: all 0.18s;
     white-space: nowrap;
   }
@@ -524,8 +619,10 @@
     border-radius: 13px;
     padding: 12px 14px;
     margin-bottom: 8px;
-    display: flex; align-items: center; gap: 10px;
     box-shadow: var(--shadow-card);
+  }
+  .cat-item-header {
+    display: flex; align-items: center; gap: 10px; cursor: pointer;
   }
   .cat-item-emoji { font-size: 22px; flex-shrink: 0; }
   .cat-item-name { flex: 1; font-size: 14px; font-weight: 800; color: var(--text); }
@@ -535,12 +632,79 @@
     padding: 6px 10px; font-size: 12px; font-weight: 800;
     cursor: pointer;
   }
+  .cat-toggle {
+    background: var(--accent-soft); color: var(--accent);
+    border: none; border-radius: 8px;
+    padding: 6px 10px; font-size: 12px; font-weight: 800;
+    cursor: pointer;
+  }
+
+  /* SUBCATEGORY LIST */
+  .subcat-list {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+    display: none;
+  }
+  .subcat-list.open { display: block; }
+  .subcat-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--surface2);
+  }
+  .subcat-item:last-child { border-bottom: none; }
+  .subcat-item-name { flex: 1; font-size: 13px; font-weight: 700; color: var(--text2); }
+  .subcat-item-del {
+    background: none; color: var(--red);
+    border: none; font-size: 14px; cursor: pointer; padding: 4px 6px;
+  }
+  .add-subcat-row { display: flex; gap: 8px; margin-top: 10px; }
+  .add-subcat-row input { flex: 1; }
+  .add-subcat-btn {
+    background: var(--accent-soft); color: var(--accent);
+    border: 1.5px solid var(--accent2);
+    border-radius: 10px; padding: 8px 14px;
+    font-size: 12px; font-weight: 800; cursor: pointer;
+    white-space: nowrap;
+  }
 
   .add-cat-row {
     display: flex; gap: 8px; margin-top: 10px;
   }
   .add-cat-emoji { width: 54px; }
   .add-cat-name { flex: 1; }
+
+  /* PHOTO UPLOAD */
+  .photo-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 13px;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface2);
+    position: relative;
+  }
+  .photo-upload-area:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .photo-upload-area input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .photo-upload-icon { font-size: 28px; margin-bottom: 6px; }
+  .photo-upload-text { font-size: 13px; font-weight: 700; color: var(--text2); }
+  .photo-upload-hint { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .photo-preview {
+    width: 100%; height: 120px;
+    border-radius: 11px; object-fit: cover;
+    margin-top: 10px; display: none;
+    border: 1.5px solid var(--border);
+  }
+  .photo-preview.show { display: block; }
+  .photo-uploading { font-size: 12px; color: var(--accent); font-weight: 700; margin-top: 6px; display: none; }
+  .photo-uploading.show { display: block; }
+  .photo-url-fallback {
+    font-size: 11px; color: var(--muted); text-align: center;
+    margin-top: 8px;
+  }
+  .photo-url-fallback a { color: var(--accent); cursor: pointer; font-weight: 700; }
 
   /* TOAST */
   .toast {
@@ -578,6 +742,19 @@
 
   /* DIVIDER */
   .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+  /* imgbb info box */
+  .info-box {
+    background: var(--accent-soft);
+    border: 1.5px solid var(--accent2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .info-box strong { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -599,9 +776,10 @@
   </div>
 
   <!-- CATEGORIES -->
-  <div class="category-bar" id="categoryBar">
-    <!-- rendered by JS -->
-  </div>
+  <div class="category-bar" id="categoryBar"></div>
+
+  <!-- SUBCATEGORIES -->
+  <div class="subcat-bar" id="subcatBar"></div>
 
   <!-- FILTERS -->
   <div class="filter-row">
@@ -627,6 +805,25 @@
   </div>
 </div>
 
+<!-- ══════════════ ORDER FORM MODAL ══════════════ -->
+<div class="order-form-overlay" id="orderFormOverlay" onclick="if(event.target===this)closeOrderForm()">
+  <div class="order-form-modal">
+    <button class="close-btn" onclick="closeOrderForm()" style="top:18px;right:18px;">✕</button>
+    <div class="order-form-title">🛒 Оформить заказ</div>
+    <div class="order-form-subtitle">Введи номер телефона, и мы свяжемся с тобой для подтверждения</div>
+
+    <div class="order-product-preview" id="orderPreview"></div>
+
+    <label class="order-form-label">📱 Номер телефона</label>
+    <input class="order-form-input" type="tel" id="orderPhone" placeholder="+375 29 000-00-00">
+
+    <label class="order-form-label">💬 Комментарий (необязательно)</label>
+    <input class="order-form-input" type="text" id="orderComment" placeholder="Способ доставки, вопрос...">
+
+    <button class="order-submit-btn" onclick="submitOrder()">✅ Отправить заказ</button>
+  </div>
+</div>
+
 <!-- ══════════════ ADMIN PANEL ══════════════ -->
 <div class="admin-panel" id="adminPanel">
   <div class="admin-header">
@@ -642,6 +839,25 @@
 
   <!-- TAB: ADD PRODUCT -->
   <div id="tabAdd">
+    <div class="info-box">
+      <strong>Фото:</strong> загрузи картинку прямо здесь — она автоматически загрузится в облако. Или вставь ссылку вручную.
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Фото товара</label>
+      <div class="photo-upload-area" id="aUploadArea">
+        <input type="file" accept="image/*" onchange="handlePhotoUpload(this,'aPhoto','aPreview','aUploading')">
+        <div class="photo-upload-icon">📷</div>
+        <div class="photo-upload-text">Нажми чтобы выбрать фото</div>
+        <div class="photo-upload-hint">JPG, PNG до 5 МБ</div>
+      </div>
+      <img class="photo-preview" id="aPreview">
+      <div class="photo-uploading" id="aUploading">⏳ Загружаем фото...</div>
+      <div class="photo-url-fallback">или <a onclick="toggleUrlInput('aPhotoUrl')">вставь ссылку</a></div>
+      <input class="form-input" type="url" id="aPhotoUrl" placeholder="https://..." style="display:none;margin-top:8px" oninput="document.getElementById('aPhoto').value=this.value">
+      <input type="hidden" id="aPhoto">
+    </div>
+
     <div class="form-group">
       <label class="form-label">Название</label>
       <input class="form-input" type="text" id="aName" placeholder="Например: Ice Mint 3%">
@@ -649,8 +865,13 @@
 
     <div class="form-group">
       <label class="form-label">Категория</label>
-      <select class="form-select" id="aCategory">
-        <!-- populated by JS -->
+      <select class="form-select" id="aCategory" onchange="updateSubcatSelect('aCategory','aSubcategory')"></select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Подкатегория / Производитель</label>
+      <select class="form-select" id="aSubcategory">
+        <option value="">— Нет —</option>
       </select>
     </div>
 
@@ -681,11 +902,6 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Ссылка на фото</label>
-      <input class="form-input" type="url" id="aPhoto" placeholder="https://...">
-    </div>
-
     <button class="submit-btn" onclick="doAddProduct()">Добавить товар</button>
   </div>
 
@@ -706,7 +922,7 @@
       <input class="form-input add-cat-emoji" type="text" id="catEmoji" placeholder="🧊" maxlength="4">
       <input class="form-input add-cat-name" type="text" id="catName" placeholder="Название категории">
     </div>
-    <button class="submit-btn" onclick="addCategory()" style="margin-top:10px;">Добавить</button>
+    <button class="submit-btn" onclick="addCategory()" style="margin-top:10px;">Добавить категорию</button>
   </div>
 </div>
 
@@ -718,12 +934,32 @@
     <input type="hidden" id="eId">
 
     <div class="form-group">
+      <label class="form-label">Фото товара</label>
+      <div class="photo-upload-area">
+        <input type="file" accept="image/*" onchange="handlePhotoUpload(this,'ePhoto','ePreview','eUploading')">
+        <div class="photo-upload-icon">📷</div>
+        <div class="photo-upload-text">Нажми чтобы сменить фото</div>
+        <div class="photo-upload-hint">JPG, PNG до 5 МБ</div>
+      </div>
+      <img class="photo-preview" id="ePreview">
+      <div class="photo-uploading" id="eUploading">⏳ Загружаем фото...</div>
+      <input class="form-input" type="url" id="ePhotoUrl" placeholder="https://..." style="margin-top:8px" oninput="document.getElementById('ePhoto').value=this.value">
+      <input type="hidden" id="ePhoto">
+    </div>
+
+    <div class="form-group">
       <label class="form-label">Название</label>
       <input class="form-input" type="text" id="eName">
     </div>
     <div class="form-group">
       <label class="form-label">Категория</label>
-      <select class="form-select" id="eCategory"></select>
+      <select class="form-select" id="eCategory" onchange="updateSubcatSelect('eCategory','eSubcategory')"></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Подкатегория / Производитель</label>
+      <select class="form-select" id="eSubcategory">
+        <option value="">— Нет —</option>
+      </select>
     </div>
     <div class="form-group">
       <label class="form-label">Описание</label>
@@ -749,10 +985,6 @@
         <input class="form-input" type="number" id="eVolume">
       </div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Ссылка на фото</label>
-      <input class="form-input" type="url" id="ePhoto">
-    </div>
     <button class="submit-btn" onclick="doUpdateProduct()">Сохранить</button>
   </div>
 </div>
@@ -760,56 +992,122 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ⚠️ ЗАМЕНИ НА СВОЙ URL после деплоя Google Apps Script
-const API_URL = 'https://script.google.com/macros/s/AKfycbzxN4PAS40r1CUXd_QqGwzMsslt9w3-DoVZaKSNfCe6eWc2Qx-NCuqxRTXg1UkNUwjv/exec';
+// ══════════════════════════════════════════
+// КОНФИГ — замени на свои значения
+// ══════════════════════════════════════════
+const API_URL = 'https://script.google.com/macros/s/AKfycbzBFImL6BgQuSmsN7lNUi5jNsMAfrIXx0lVdZMovxMKbuvSOvmOVF5kIiK5YIIsqPKn/exec';
 
-// ── КАТЕГОРИИ (хранятся в localStorage, редактируются в админке) ──
+// Получи бесплатный API ключ на https://imgbb.com → Settings → API
+// Без него загрузка фото не работает
+const IMGBB_KEY = 'dc580b73a80b7d242eb613aeebade1e1' // зайди на imgbb.com → Settings → API;
+
+// ══════════════════════════════════════════
+
 const DEFAULT_CATS = [
-  { id:'all',        emoji:'🏷️',  name:'Все' },
-  { id:'liquid',     emoji:'🧪',  name:'Жидкости' },
-  { id:'cartridge',  emoji:'🔋',  name:'Картриджи' },
-  { id:'snuse',      emoji:'🟢',  name:'Снюс' },
-  { id:'device',     emoji:'💨',  name:'Испарители' },
+  { id:'all',       emoji:'🏷️', name:'Все', subcats:[] },
+  { id:'liquid',    emoji:'🧪', name:'Жидкости', subcats:['Elf Bar','Vaporesso','ELFLIQ','Другое'] },
+  { id:'cartridge', emoji:'🔋', name:'Картриджи', subcats:[] },
+  { id:'snuse',     emoji:'🟢', name:'Снюс', subcats:['Killa','Oden\'s','White Fox','Другое'] },
+  { id:'device',    emoji:'💨', name:'Испарители', subcats:[] },
 ];
 
 function loadCategories() {
   try {
-    const saved = localStorage.getItem('bv_categories');
+    const saved = localStorage.getItem('bv_categories_v2');
     if (saved) return JSON.parse(saved);
   } catch(e){}
-  return DEFAULT_CATS.slice(); // copy
+  return DEFAULT_CATS.map(c => ({...c, subcats: c.subcats || []}));
 }
 
 function saveCategories(cats) {
-  localStorage.setItem('bv_categories', JSON.stringify(cats));
+  localStorage.setItem('bv_categories_v2', JSON.stringify(cats));
 }
 
 let categories = loadCategories();
 let allProducts = [];
 let currentCategory = 'all';
+let currentSubcat = '';
 let currentFilter = 'all';
 let isAdmin = false;
+let orderingProduct = null;
 
 // ── TELEGRAM ──
 const tg = window.Telegram?.WebApp;
 if (tg) { tg.ready(); tg.expand(); }
 
-// ── ADMIN CHECK: проверка по Telegram user_id ──
-// Добавь сюда свои Telegram ID для доступа к управлению
-const ADMIN_IDS = [1016541789]; // например: [123456789, 987654321]
+// ── ADMIN CHECK ──
+const ADMIN_IDS = [1016541789];
 
 function checkAdminAccess() {
   const userId = tg?.initDataUnsafe?.user?.id;
   if (!userId) {
-    // Если нет TG окружения — в режиме браузера показываем кнопку (для теста)
     isAdmin = true;
-    return;
+  } else {
+    isAdmin = ADMIN_IDS.includes(userId);
   }
-  isAdmin = ADMIN_IDS.includes(userId);
   document.getElementById('adminOpenBtn').style.display = isAdmin ? 'block' : 'none';
 }
 
-// ── КАТЕГОРИИ UI ──
+// ── PHOTO UPLOAD (imgbb) ──
+async function handlePhotoUpload(input, photoFieldId, previewId, uploadingId) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const preview = document.getElementById(previewId);
+  const uploading = document.getElementById(uploadingId);
+
+  // Show local preview immediately
+  const reader = new FileReader();
+  reader.onload = e => {
+    preview.src = e.target.result;
+    preview.classList.add('show');
+  };
+  reader.readAsDataURL(file);
+
+  if (!IMGBB_KEY || IMGBB_KEY === 'dc580b73a80b7d242eb613aeebade1e1') {
+    showToast('Добавь IMGBB_KEY для загрузки фото!', true);
+    return;
+  }
+
+  uploading.classList.add('show');
+
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById(photoFieldId).value = data.data.url;
+      showToast('Фото загружено! ✓');
+    } else {
+      showToast('Ошибка загрузки фото', true);
+    }
+  } catch(e) {
+    showToast('Ошибка загрузки фото', true);
+  } finally {
+    uploading.classList.remove('show');
+  }
+}
+
+function toggleUrlInput(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// ── SUBCATEGORY SELECTS ──
+function updateSubcatSelect(catSelectId, subcatSelectId) {
+  const catId = document.getElementById(catSelectId).value;
+  const cat = categories.find(c => c.id === catId);
+  const subcats = cat?.subcats || [];
+  const sel = document.getElementById(subcatSelectId);
+  sel.innerHTML = '<option value="">— Нет —</option>' +
+    subcats.map(s => `<option value="${s}">${s}</option>`).join('');
+}
+
+// ── CATEGORY UI ──
 function renderCategoryBar() {
   const bar = document.getElementById('categoryBar');
   bar.innerHTML = categories.map(c => `
@@ -819,13 +1117,31 @@ function renderCategoryBar() {
     </div>`).join('');
 }
 
+function renderSubcatBar() {
+  const bar = document.getElementById('subcatBar');
+  if (currentCategory === 'all') { bar.innerHTML = ''; return; }
+  const cat = categories.find(c => c.id === currentCategory);
+  const subcats = cat?.subcats || [];
+  if (!subcats.length) { bar.innerHTML = ''; return; }
+  bar.innerHTML = `<div class="subcat-chip ${currentSubcat===''?'active':''}" onclick="setSubcat('',this)">Все</div>` +
+    subcats.map(s => `<div class="subcat-chip ${currentSubcat===s?'active':''}" onclick="setSubcat('${s}',this)">${s}</div>`).join('');
+}
+
 function setCategory(id, el) {
   currentCategory = id;
+  currentSubcat = '';
   document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   const cat = categories.find(c => c.id === id);
-  document.getElementById('sectionTitle').textContent =
-    id === 'all' ? 'Все товары' : (cat?.name || 'Товары');
+  document.getElementById('sectionTitle').textContent = id === 'all' ? 'Все товары' : (cat?.name || 'Товары');
+  renderSubcatBar();
+  renderProducts();
+}
+
+function setSubcat(s, el) {
+  currentSubcat = s;
+  document.querySelectorAll('.subcat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
   renderProducts();
 }
 
@@ -843,16 +1159,13 @@ async function loadProducts() {
     const data = await res.json();
     allProducts = data.products || [];
   } catch(e) {
-    // Demo data
     allProducts = [
-      { id:1, name:'Ice Mint 3%', category:'liquid', description:'Ледяная мята, освежающий вкус', price:12.50, discount:10, strength:3, volume:30, photo:'', available:true },
-      { id:2, name:'Strawberry 6%', category:'liquid', description:'Сладкая клубника', price:11.00, discount:0, strength:6, volume:30, photo:'', available:true },
-      { id:3, name:'Mango 20мг', category:'cartridge', description:'Манго на солевом никотине', price:18.00, discount:15, strength:20, volume:2, photo:'', available:false },
-      { id:4, name:'Killa Cold Mint', category:'snuse', description:'Охлаждающий снюс', price:9.50, discount:0, strength:0, volume:0, photo:'', available:true },
-      { id:5, name:'XROS 3 Mini', category:'device', description:'Компактный под', price:45.00, discount:0, strength:0, volume:0, photo:'', available:true },
+      { id:1, name:'Ice Mint 3%', category:'liquid', subcategory:'Elf Bar', description:'Ледяная мята', price:12.50, discount:10, strength:3, volume:30, photo:'', available:true },
+      { id:2, name:'Killa Cold', category:'snuse', subcategory:"Killa", description:'Охлаждающий снюс', price:9.50, discount:0, strength:0, volume:0, photo:'', available:true },
     ];
   }
   renderCategoryBar();
+  renderSubcatBar();
   renderProducts();
 }
 
@@ -864,19 +1177,15 @@ function renderProducts() {
   let filtered = allProducts.filter(p => {
     const matchSearch = !search || p.name.toLowerCase().includes(search) || (p.description||'').toLowerCase().includes(search);
     const matchCat = currentCategory === 'all' || p.category === currentCategory;
-    const matchFilter = currentFilter === 'all'
-      ? true
+    const matchSubcat = !currentSubcat || p.subcategory === currentSubcat;
+    const matchFilter = currentFilter === 'all' ? true
       : currentFilter === 'available' ? p.available
       : p.discount > 0;
-    return matchSearch && matchCat && matchFilter;
+    return matchSearch && matchCat && matchSubcat && matchFilter;
   });
 
-  if (filtered.length === 0) {
-    list.innerHTML = `<div class="empty">
-      <div class="empty-icon">🔍</div>
-      <p>Ничего не найдено</p>
-      <small>Попробуй другой запрос или категорию</small>
-    </div>`;
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Ничего не найдено</p><small>Попробуй другой запрос</small></div>`;
     return;
   }
 
@@ -894,6 +1203,7 @@ function renderProducts() {
         <div class="product-name">${p.name}</div>
         <div class="product-tags">
           ${cat && cat.id !== 'all' ? `<div class="tag cat">${cat.emoji} ${cat.name}</div>` : ''}
+          ${p.subcategory ? `<div class="tag cat">${p.subcategory}</div>` : ''}
           ${p.strength ? `<div class="tag">${p.strength} мг</div>` : ''}
           ${p.volume ? `<div class="tag green">${p.volume} мл</div>` : ''}
         </div>
@@ -919,6 +1229,7 @@ function openProduct(id) {
       ${p.discount > 0 ? `<div class="modal-discount">–${p.discount}%</div>` : ''}
     </div>
     ${cat && cat.id !== 'all' ? `<div class="modal-cat-label">${cat.emoji} ${cat.name}</div>` : ''}
+    ${p.subcategory ? `<div class="modal-subcat-label">🏭 ${p.subcategory}</div>` : ''}
     <div class="modal-name">${p.name}</div>
     <div class="modal-tags">
       ${p.strength ? `<div class="modal-tag">${p.strength} мг никотина</div>` : ''}
@@ -930,7 +1241,7 @@ function openProduct(id) {
       ${p.discount > 0 ? `<div class="modal-price-old">${Number(p.price).toFixed(2)} Br</div>` : ''}
     </div>
     <button class="order-btn" ${!p.available ? 'disabled' : ''} onclick="orderProduct(${p.id})">
-      ${p.available ? '🛒 Заказать' : 'Нет в наличии'}
+      ${p.available ? '🛒 Оформить заказ' : 'Нет в наличии'}
     </button>`;
 
   document.getElementById('productModal').classList.add('open');
@@ -938,16 +1249,63 @@ function openProduct(id) {
 
 function closeModal() { document.getElementById('productModal').classList.remove('open'); }
 
+// ── ORDER FLOW ──
 function orderProduct(id) {
   const p = allProducts.find(x => String(x.id) === String(id));
   if (!p) return;
-  const finalPrice = p.discount > 0 ? (p.price * (1-p.discount/100)).toFixed(2) : Number(p.price).toFixed(2);
-  if (tg) {
-    tg.sendData(JSON.stringify({ action:'order', productId:id, productName:p.name, price:finalPrice }));
-  } else {
-    showToast('Заказ оформлен! ✓');
-  }
   closeModal();
+  orderingProduct = p;
+
+  const finalPrice = p.discount > 0 ? (p.price * (1-p.discount/100)).toFixed(2) : Number(p.price).toFixed(2);
+  document.getElementById('orderPreview').innerHTML = `
+    <div class="order-product-preview-img">
+      ${p.photo ? `<img src="${p.photo}" onerror="this.innerHTML='💨'">` : '💨'}
+    </div>
+    <div>
+      <div class="order-product-preview-name">${p.name}</div>
+      <div class="order-product-preview-price">${finalPrice} Br</div>
+    </div>`;
+
+  document.getElementById('orderPhone').value = '';
+  document.getElementById('orderComment').value = '';
+  document.getElementById('orderFormOverlay').classList.add('open');
+}
+
+function closeOrderForm() {
+  document.getElementById('orderFormOverlay').classList.remove('open');
+  orderingProduct = null;
+}
+
+async function submitOrder() {
+  const phone = document.getElementById('orderPhone').value.trim();
+  if (!phone) { showToast('Введи номер телефона', true); return; }
+
+  const p = orderingProduct;
+  if (!p) return;
+
+  const finalPrice = p.discount > 0 ? (p.price * (1-p.discount/100)).toFixed(2) : Number(p.price).toFixed(2);
+  const comment = document.getElementById('orderComment').value.trim();
+  const user = tg?.initDataUnsafe?.user;
+  const username = user?.username ? `@${user.username}` : (user?.first_name || 'Неизвестно');
+
+  const orderData = {
+    action: 'sendOrder',
+    productId: p.id,
+    productName: p.name,
+    price: finalPrice,
+    phone,
+    comment,
+    username,
+    userId: user?.id || ''
+  };
+
+  try {
+    await fetch(API_URL, { method:'POST', body: JSON.stringify(orderData) });
+    showToast('Заказ отправлен! Ждите звонка ✓');
+    closeOrderForm();
+  } catch(e) {
+    showToast('Ошибка отправки', true);
+  }
 }
 
 // ── ADMIN ──
@@ -973,10 +1331,13 @@ function switchTab(tab, btn) {
 }
 
 function populateCategorySelects() {
-  const opts = categories.filter(c => c.id !== 'all').map(c =>
-    `<option value="${c.id}">${c.emoji} ${c.name}</option>`).join('');
-  document.getElementById('aCategory').innerHTML = opts;
-  document.getElementById('eCategory').innerHTML = opts;
+  const cats = categories.filter(c => c.id !== 'all');
+  const opts = cats.map(c => `<option value="${c.id}">${c.emoji} ${c.name}</option>`).join('');
+  ['aCategory','eCategory'].forEach(id => {
+    document.getElementById(id).innerHTML = opts;
+  });
+  updateSubcatSelect('aCategory','aSubcategory');
+  updateSubcatSelect('eCategory','eSubcategory');
 }
 
 // ── ADD PRODUCT ──
@@ -989,6 +1350,7 @@ async function doAddProduct() {
     action: 'addProduct',
     name,
     category: document.getElementById('aCategory').value,
+    subcategory: document.getElementById('aSubcategory').value,
     description: document.getElementById('aDesc').value.trim(),
     price,
     discount: parseFloat(document.getElementById('aDiscount').value) || 0,
@@ -998,10 +1360,18 @@ async function doAddProduct() {
   };
 
   try {
-    await fetch(API_URL, { method:'POST', body: JSON.stringify(product) });
+    const res = await fetch(API_URL, { method:'POST', body: JSON.stringify(product) });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
     showToast('Товар добавлен! ✓');
-    ['aName','aDesc','aPrice','aDiscount','aStrength','aVolume','aPhoto'].forEach(id => document.getElementById(id).value = '');
-  } catch(e) { showToast('Ошибка при сохранении', true); }
+    ['aName','aDesc','aPrice','aDiscount','aStrength','aVolume','aPhoto','aPhotoUrl'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('aPreview').classList.remove('show');
+  } catch(e) {
+    showToast('Ошибка: ' + e.message, true);
+  }
 }
 
 // ── ADMIN LIST ──
@@ -1011,7 +1381,8 @@ async function renderAdminList() {
   try {
     const res = await fetch(`${API_URL}?action=getProducts`);
     const data = await res.json();
-    const products = data.products || allProducts;
+    if (data.error) throw new Error(data.error);
+    const products = data.products || [];
     if (!products.length) {
       list.innerHTML = '<div class="empty" style="grid-column:unset"><div class="empty-icon">📦</div><p>Товаров нет</p></div>';
       return;
@@ -1025,7 +1396,7 @@ async function renderAdminList() {
         </div>
         <div class="admin-product-info">
           <div class="admin-product-name">${p.name}</div>
-          ${cat ? `<div class="admin-product-cat">${cat.emoji} ${cat.name}</div>` : ''}
+          ${cat ? `<div class="admin-product-cat">${cat.emoji} ${cat.name}${p.subcategory ? ' · ' + p.subcategory : ''}</div>` : ''}
           <div class="admin-product-meta">${Number(p.price).toFixed(2)} Br${p.discount>0?` · –${p.discount}%`:''}${p.strength?` · ${p.strength} мг`:''}${p.volume?` · ${p.volume} мл`:''}</div>
         </div>
         <div class="admin-product-actions">
@@ -1037,8 +1408,9 @@ async function renderAdminList() {
         </div>
       </div>`;
     }).join('');
+    allProducts = products;
   } catch(e) {
-    list.innerHTML = '<div class="empty" style="grid-column:unset"><p>Не удалось загрузить</p></div>';
+    list.innerHTML = `<div class="empty" style="grid-column:unset"><p>Не удалось загрузить: ${e.message}</p></div>`;
   }
 }
 
@@ -1062,17 +1434,23 @@ async function deleteProduct(id) {
 // ── EDIT MODAL ──
 function openEditModal(id) {
   const p = allProducts.find(x => String(x.id) === String(id)) ||
-            { id, name:'', category:'', description:'', price:0, discount:0, strength:0, volume:0, photo:'' };
+            { id, name:'', category:'', subcategory:'', description:'', price:0, discount:0, strength:0, volume:0, photo:'' };
   populateCategorySelects();
   document.getElementById('eId').value = p.id;
   document.getElementById('eName').value = p.name;
   document.getElementById('eCategory').value = p.category || '';
+  updateSubcatSelect('eCategory','eSubcategory');
+  document.getElementById('eSubcategory').value = p.subcategory || '';
   document.getElementById('eDesc').value = p.description || '';
   document.getElementById('ePrice').value = p.price || '';
   document.getElementById('eDiscount').value = p.discount || 0;
   document.getElementById('eStrength').value = p.strength || '';
   document.getElementById('eVolume').value = p.volume || '';
   document.getElementById('ePhoto').value = p.photo || '';
+  document.getElementById('ePhotoUrl').value = p.photo || '';
+  const ePreview = document.getElementById('ePreview');
+  if (p.photo) { ePreview.src = p.photo; ePreview.classList.add('show'); }
+  else { ePreview.classList.remove('show'); }
   document.getElementById('editOverlay').classList.add('open');
 }
 
@@ -1085,9 +1463,9 @@ async function doUpdateProduct() {
   if (!name || !price) { showToast('Заполни название и цену', true); return; }
 
   const data = {
-    action: 'updateProduct',
-    id, name,
+    action: 'updateProduct', id, name,
     category: document.getElementById('eCategory').value,
+    subcategory: document.getElementById('eSubcategory').value,
     description: document.getElementById('eDesc').value.trim(),
     price,
     discount: parseFloat(document.getElementById('eDiscount').value) || 0,
@@ -1097,23 +1475,70 @@ async function doUpdateProduct() {
   };
 
   try {
-    await fetch(API_URL, { method:'POST', body: JSON.stringify(data) });
+    const res = await fetch(API_URL, { method:'POST', body: JSON.stringify(data) });
+    const result = await res.json();
+    if (result.error) throw new Error(result.error);
     showToast('Сохранено! ✓');
     closeEditModal();
     renderAdminList();
-  } catch(e) { showToast('Ошибка', true); }
+  } catch(e) { showToast('Ошибка: ' + e.message, true); }
 }
 
 // ── CATEGORY EDITOR ──
 function renderCatEditor() {
   const list = document.getElementById('catList');
   const userCats = categories.filter(c => c.id !== 'all');
+  if (!userCats.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:14px;padding:10px 0">Категорий нет</div>';
+    return;
+  }
   list.innerHTML = userCats.map(c => `
     <div class="cat-item">
-      <div class="cat-item-emoji">${c.emoji}</div>
-      <div class="cat-item-name">${c.name}</div>
-      <button class="cat-item-del" onclick="deleteCategory('${c.id}')">Удалить</button>
-    </div>`).join('') || '<div style="color:var(--muted);font-size:14px;padding:10px 0">Категорий нет</div>';
+      <div class="cat-item-header">
+        <div class="cat-item-emoji">${c.emoji}</div>
+        <div class="cat-item-name">${c.name}</div>
+        <button class="cat-toggle" onclick="toggleSubcatList('subcats_${c.id}')">Подкатегории ▾</button>
+        <button class="cat-item-del" onclick="deleteCategory('${c.id}')">Удалить</button>
+      </div>
+      <div class="subcat-list" id="subcats_${c.id}">
+        ${(c.subcats||[]).map(s => `
+          <div class="subcat-item">
+            <span class="subcat-item-name">• ${s}</span>
+            <button class="subcat-item-del" onclick="deleteSubcat('${c.id}','${s}')">✕</button>
+          </div>`).join('')}
+        <div class="add-subcat-row">
+          <input class="form-input" type="text" id="newsubcat_${c.id}" placeholder="Новая подкатегория...">
+          <button class="add-subcat-btn" onclick="addSubcat('${c.id}')">＋ Добавить</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleSubcatList(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function addSubcat(catId) {
+  const input = document.getElementById(`newsubcat_${catId}`);
+  const name = input.value.trim();
+  if (!name) return;
+  const cat = categories.find(c => c.id === catId);
+  if (!cat) return;
+  if (!cat.subcats) cat.subcats = [];
+  if (!cat.subcats.includes(name)) cat.subcats.push(name);
+  saveCategories(categories);
+  input.value = '';
+  renderCatEditor();
+  showToast('Подкатегория добавлена!');
+}
+
+function deleteSubcat(catId, name) {
+  const cat = categories.find(c => c.id === catId);
+  if (!cat) return;
+  cat.subcats = (cat.subcats||[]).filter(s => s !== name);
+  saveCategories(categories);
+  renderCatEditor();
+  showToast('Подкатегория удалена');
 }
 
 function addCategory() {
@@ -1121,7 +1546,7 @@ function addCategory() {
   const name = document.getElementById('catName').value.trim();
   if (!name) { showToast('Введи название категории', true); return; }
   const id = 'cat_' + Date.now();
-  categories.push({ id, emoji, name });
+  categories.push({ id, emoji, name, subcats: [] });
   saveCategories(categories);
   document.getElementById('catEmoji').value = '';
   document.getElementById('catName').value = '';
@@ -1134,9 +1559,8 @@ function addCategory() {
 function deleteCategory(id) {
   if (!confirm('Удалить категорию?')) return;
   categories = categories.filter(c => c.id !== id);
-  // don't remove 'all'
   if (!categories.find(c => c.id === 'all')) {
-    categories.unshift({ id:'all', emoji:'🏷️', name:'Все' });
+    categories.unshift({ id:'all', emoji:'🏷️', name:'Все', subcats:[] });
   }
   saveCategories(categories);
   renderCatEditor();

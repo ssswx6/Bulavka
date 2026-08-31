@@ -796,10 +796,11 @@ body {
 // ══════════════════════════════════
 // CONFIG
 // ══════════════════════════════════
-const API_URL   = 'https://script.google.com/macros/s/AKfycbwcpVGp1ePaBcOoUVw9nbdWbaQJ5m2O-95OMML7V17KS3VoChm5JknBW4oZ4jRc_lUE/exec';
+const API_URL   = 'https://script.google.com/macros/s/AKfycbxT-elfHy7tvL3hrKZIFP3em1dOsFkzsOMeEcS4qwsBfRwGV9L6wHZUW_RWF8X-1dvD/exec';
 // IMGBB ключ не хранится в коде — загрузка идёт через бэкенд
 const IMGBB_KEY = '';
-const ADMIN_IDS = [1016541789];
+const ADMIN_IDS  = [1016541789];
+const ADMIN_SECRET = 'bulavka_secret_2026'; // должен совпадать с бэкендом
 
 // ══ ADMIN FETCH — прикладывает initData к каждому админскому запросу ══
 function getInitData() {
@@ -810,7 +811,7 @@ async function adminFetch(payload) {
   const userId   = tg?.initDataUnsafe?.user?.id || '';
   const res = await fetch(API_URL, {
     method: 'POST',
-    body: JSON.stringify({ ...payload, initData, userId })
+    body: JSON.stringify({ ...payload, initData, userId, secret: ADMIN_SECRET })
   });
   const data = await res.json();
   // Forbidden только если реально открыто в TG и userId не совпадает

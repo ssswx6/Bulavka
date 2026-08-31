@@ -864,14 +864,6 @@ function checkAdmin() {
   if (isAdmin) document.getElementById('adminOpenBtn').style.display = 'flex';
 }
  
-// ══ STATE ══
-let allProducts = [];
-let categories  = loadCats();
-let cart        = {};            // { productId: qty }
-let screenStack = ['screenCatalog'];
-let currentCatId   = null;
-let currentSubcat  = null;
- 
 // ══ CATEGORIES ══
 const DEFAULT_CATS = [
   { id:'liquid',    emoji:'🧪', name:'Жидкости',   subcats:['Elf Bar','ELFLIQ','Vaporesso','Другое'] },
@@ -886,6 +878,14 @@ function loadCats() {
   return DEFAULT_CATS.map(c => ({...c}));
 }
 function saveCats() { localStorage.setItem('bv_cats_v3', JSON.stringify(categories)); }
+ 
+// ══ STATE ══
+let allProducts = [];
+let categories  = loadCats();
+let cart        = {};            // { productId: qty }
+let screenStack = ['screenCatalog'];
+let currentCatId   = null;
+let currentSubcat  = null;
  
 // ══ CART ══
 function cartCount() { return Object.values(cart).reduce((a,b)=>a+b,0); }
@@ -996,12 +996,10 @@ async function fetchAndCache(showLoading) {
     allProducts = sanitizeProducts(data.products);
     localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: allProducts }));
   } catch(e) {
-    if (!allProducts.length) {
-      allProducts = [];
-      document.getElementById('catListEl').innerHTML =
-        '<div class="empty"><div class="empty-icon">⚠️</div><p>Не удалось загрузить</p><small style="color:var(--muted);font-size:12px;margin-top:6px;display:block">Проверь подключение к интернету</small><button onclick="loadProducts()" style="margin-top:14px;background:var(--accent);color:white;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:800;cursor:pointer">Повторить</button></div>';
-      return;
-    }
+    allProducts = allProducts.length ? allProducts : [];
+    document.getElementById('catListEl').innerHTML =
+      '<div class="empty"><div class="empty-icon">⚠️</div><p>Не удалось загрузить</p><small style="color:var(--muted);font-size:12px;margin-top:6px;display:block">' + e.message + '</small><button onclick="loadProducts()" style="margin-top:14px;background:var(--accent);color:white;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:800;cursor:pointer">🔄 Повторить</button></div>';
+    return;
   }
   renderCatList();
 }

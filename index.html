@@ -36,15 +36,15 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   display: flex; flex-direction: column;
 }
-
+ 
 /* ══ SCREENS ══ */
 .screen { display: none; flex-direction: column; flex: 1; overflow: hidden; }
 .screen.active { display: flex; }
-
+ 
 /* ══ SCROLLABLE AREA ══ */
 .scroll-area { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 16px; }
 .scroll-area::-webkit-scrollbar { display: none; }
-
+ 
 /* ══ TOP BAR ══ */
 .topbar {
   display: flex; align-items: center; gap: 12px;
@@ -61,7 +61,7 @@ body {
 }
 .topbar-title { font-size: 17px; font-weight: 800; flex: 1; }
 .topbar-right { display: flex; gap: 8px; align-items: center; }
-
+ 
 /* ══ HOME HEADER ══ */
 .home-header {
   padding: 18px 16px 14px;
@@ -95,7 +95,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   padding: 0 4px; border: 2px solid var(--bg2);
 }
-
+ 
 /* ══ SEARCH ══ */
 .search-wrap { position: relative; }
 .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--muted); pointer-events: none; }
@@ -107,7 +107,7 @@ body {
 }
 .search-input:focus { border-color: var(--accent); }
 .search-input::placeholder { color: var(--muted); }
-
+ 
 /* ══ CATEGORY LIST (home) ══ */
 .cat-list { padding: 12px 12px; display: flex; flex-direction: column; gap: 10px; }
 .cat-card {
@@ -137,7 +137,7 @@ body {
   width: 80px; height: 80px; border-radius: 50%;
   background: var(--accent-soft); filter: blur(20px); pointer-events: none;
 }
-
+ 
 /* ══ SUBCAT LIST ══ */
 .subcat-list { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 .subcat-card {
@@ -157,7 +157,7 @@ body {
 .subcat-card-count { font-size: 12px; color: var(--muted); font-weight: 600; }
 .subcat-card-arrow { color: var(--muted); font-size: 16px; }
 .subcat-all { border-style: dashed; }
-
+ 
 /* ══ PRODUCTS GRID ══ */
 .products-header {
   padding: 12px 16px 4px;
@@ -165,7 +165,7 @@ body {
 }
 .products-header-title { font-size: 13px; font-weight: 700; color: var(--muted); }
 .products-grid { padding: 4px 12px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
+ 
 .product-card {
   background: var(--surface);
   border: 1px solid var(--border2);
@@ -205,7 +205,7 @@ body {
 .price-row { display: flex; align-items: baseline; gap: 5px; margin-top: auto; padding-top: 5px; }
 .price-final { font-size: 15px; font-weight: 900; color: var(--accent2); }
 .price-old { font-size: 11px; color: var(--muted); text-decoration: line-through; }
-
+ 
 /* ══ PRODUCT MODAL ══ */
 .modal-overlay {
   display: none; position: fixed; inset: 0;
@@ -261,7 +261,7 @@ body {
   border-radius: 14px; font-size: 18px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
 }
-
+ 
 /* qty control in modal */
 .qty-control {
   display: flex; align-items: center; gap: 0;
@@ -275,7 +275,7 @@ body {
 }
 .qty-btn:active { background: var(--border); }
 .qty-val { font-size: 16px; font-weight: 900; min-width: 32px; text-align: center; }
-
+ 
 /* ══ CART SCREEN ══ */
 .cart-empty {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -306,7 +306,7 @@ body {
 }
 .cart-qty-val { font-size: 14px; font-weight: 900; min-width: 24px; text-align: center; }
 .cart-item-del { margin-left: auto; color: var(--red); font-size: 18px; cursor: pointer; padding: 4px 8px; }
-
+ 
 .cart-total-block {
   margin: 0 12px; background: var(--surface);
   border: 1px solid var(--border2); border-radius: 14px; padding: 14px 16px;
@@ -323,7 +323,7 @@ body {
   box-shadow: 0 6px 20px rgba(124,77,255,0.35);
 }
 .cart-checkout-btn:active { opacity: 0.85; }
-
+ 
 /* ══ ORDER FORM ══ */
 .order-overlay {
   display: none; position: fixed; inset: 0;
@@ -377,7 +377,7 @@ body {
   color: var(--text2); font-size: 14px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
 }
-
+ 
 /* ══ BOTTOM NAV ══ */
 .bottom-nav {
   height: var(--nav-h); background: var(--bg2);
@@ -396,7 +396,7 @@ body {
 .nav-btn:active { background: var(--surface); }
 .nav-icon { font-size: 22px; position: relative; }
 .nav-label { font-size: 10px; font-weight: 800; }
-
+ 
 /* ══ ADMIN ══ */
 .admin-overlay {
   display: none; position: fixed; inset: 0;
@@ -517,7 +517,7 @@ body {
   border: 1px solid var(--accent); border-radius: 10px;
   padding: 8px 12px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap;
 }
-
+ 
 /* ══ EDIT OVERLAY ══ */
 .edit-overlay {
   display: none; position: fixed; inset: 0;
@@ -545,7 +545,7 @@ body {
 }
 .add-cat-row { display: flex; gap: 8px; margin-top: 8px; }
 .add-cat-emoji-input { width: 52px; }
-
+ 
 /* ══ MISC ══ */
 .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; gap: 14px; color: var(--muted); }
 .spinner { width: 30px; height: 30px; border: 3px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
@@ -571,7 +571,7 @@ body {
 </style>
 </head>
 <body>
-
+ 
 <!-- ══════════ SCREEN: CATALOG (home) ══════════ -->
 <div class="screen active" id="screenCatalog">
   <div class="home-header">
@@ -591,12 +591,12 @@ body {
       <input class="search-input" id="searchInput" type="text" placeholder="Поиск товаров..." oninput="onSearch(this.value)">
     </div>
   </div>
-
+ 
   <!-- search results -->
   <div class="scroll-area" id="searchResultsArea" style="display:none">
     <div class="products-grid" id="searchResults"></div>
   </div>
-
+ 
   <!-- category list -->
   <div class="scroll-area" id="catListArea">
     <div class="cat-list" id="catListEl">
@@ -604,7 +604,7 @@ body {
     </div>
   </div>
 </div>
-
+ 
 <!-- ══════════ SCREEN: SUBCATEGORIES ══════════ -->
 <div class="screen" id="screenSubcat">
   <div class="topbar">
@@ -615,7 +615,7 @@ body {
     <div class="subcat-list" id="subcatListEl"></div>
   </div>
 </div>
-
+ 
 <!-- ══════════ SCREEN: PRODUCTS ══════════ -->
 <div class="screen" id="screenProducts">
   <div class="topbar">
@@ -632,7 +632,7 @@ body {
     <div class="products-grid" id="productsGrid"></div>
   </div>
 </div>
-
+ 
 <!-- ══════════ SCREEN: CART ══════════ -->
 <div class="screen" id="screenCart">
   <div class="topbar">
@@ -643,7 +643,7 @@ body {
     <div id="cartContent"></div>
   </div>
 </div>
-
+ 
 <!-- ══════════ BOTTOM NAV ══════════ -->
 <div class="bottom-nav">
   <button class="nav-btn active" id="navCatalog" onclick="navTo('screenCatalog')">
@@ -655,7 +655,7 @@ body {
     <div class="nav-label">Корзина</div>
   </button>
 </div>
-
+ 
 <!-- ══════════ PRODUCT MODAL ══════════ -->
 <div class="modal-overlay" id="productModal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
@@ -663,7 +663,7 @@ body {
     <div id="modalBody"></div>
   </div>
 </div>
-
+ 
 <!-- ══════════ ORDER FORM ══════════ -->
 <div class="order-overlay" id="orderOverlay" onclick="if(event.target===this)closeOrder()">
   <div class="order-modal">
@@ -678,7 +678,7 @@ body {
     <button class="order-submit" onclick="submitOrder()">✅ Отправить заказ</button>
   </div>
 </div>
-
+ 
 <!-- ══════════ ADMIN ══════════ -->
 <div class="admin-overlay" id="adminOverlay">
   <div class="admin-hdr">
@@ -690,7 +690,7 @@ body {
     <button class="admin-tab" onclick="adminTab('list',this)">Товары</button>
     <button class="admin-tab" onclick="adminTab('cats',this)">Категории</button>
   </div>
-
+ 
   <!-- ADD -->
   <div id="aTab">
     <div class="info-box">💡 Загрузи фото или вставь ссылку. Фото автоматически уходит в облако.</div>
@@ -734,12 +734,12 @@ body {
     </div>
     <button class="submit-btn" onclick="doAdd()">Добавить товар</button>
   </div>
-
+ 
   <!-- LIST -->
   <div id="lTab" style="display:none">
     <div id="adminList"><div class="loading"><div class="spinner"></div></div></div>
   </div>
-
+ 
   <!-- CATS -->
   <div id="cTab" style="display:none">
     <div id="catEditorList"></div>
@@ -752,7 +752,7 @@ body {
     <button class="submit-btn" onclick="addCat()">Добавить категорию</button>
   </div>
 </div>
-
+ 
 <!-- ══════════ EDIT OVERLAY ══════════ -->
 <div class="edit-overlay" id="editOverlay" onclick="if(event.target===this)closeEdit()">
   <div class="edit-modal">
@@ -787,9 +787,9 @@ body {
     <button class="submit-btn" onclick="doUpdate()">Сохранить</button>
   </div>
 </div>
-
+ 
 <div class="toast" id="toast"></div>
-
+ 
 <script>
 // ══════════════════════════════════
 // CONFIG
@@ -798,7 +798,7 @@ const API_URL   = 'https://script.google.com/macros/s/AKfycbwcpVGp1ePaBcOoUVw9nb
 // IMGBB ключ не хранится в коде — загрузка идёт через бэкенд
 const IMGBB_KEY = '';
 const ADMIN_IDS = [1016541789];
-
+ 
 // ══ ADMIN FETCH — прикладывает initData к каждому админскому запросу ══
 function getInitData() {
   return window.Telegram?.WebApp?.initData || '';
@@ -811,11 +811,15 @@ async function adminFetch(payload) {
     body: JSON.stringify({ ...payload, initData, userId })
   });
   const data = await res.json();
-  if (data.error === 'Forbidden') throw new Error('Нет доступа');
+  // Forbidden только если реально открыто в TG и userId не совпадает
+  if (data.error === 'Forbidden') {
+    showToast('Нет прав доступа', 'error');
+    throw new Error('Нет доступа');
+  }
   if (data.error) throw new Error(data.error);
   return data;
 }
-
+ 
 // ══ SECURITY: sanitize all user-generated text ══
 function esc(str) {
   if (!str) return '';
@@ -826,18 +830,18 @@ function esc(str) {
     .replace(/"/g,'&quot;')
     .replace(/'/g,'&#39;');
 }
-
+ 
 // ══ SECURITY: validate price / numbers ══
 function safeNum(v, def=0) {
   const n = parseFloat(v);
   return isFinite(n) && n >= 0 ? n : def;
 }
-
+ 
 function safePrice(v) {
   const n = safeNum(v);
   return Math.round(n * 100) / 100;
 }
-
+ 
 // ══ SECURITY: validate URL (only http/https, no JS) ══
 function safeUrl(url) {
   if (!url) return '';
@@ -847,11 +851,11 @@ function safeUrl(url) {
     return url;
   } catch(e) { return ''; }
 }
-
+ 
 // ══ TELEGRAM ══
 const tg = window.Telegram?.WebApp;
 if (tg) { tg.ready(); tg.expand(); }
-
+ 
 // ══ ADMIN CHECK ══
 let isAdmin = false;
 function checkAdmin() {
@@ -859,7 +863,7 @@ function checkAdmin() {
   isAdmin = !uid || ADMIN_IDS.includes(Number(uid));
   if (isAdmin) document.getElementById('adminOpenBtn').style.display = 'flex';
 }
-
+ 
 // ══ STATE ══
 let allProducts = [];
 let categories  = loadCats();
@@ -867,7 +871,7 @@ let cart        = {};            // { productId: qty }
 let screenStack = ['screenCatalog'];
 let currentCatId   = null;
 let currentSubcat  = null;
-
+ 
 // ══ CATEGORIES ══
 const DEFAULT_CATS = [
   { id:'liquid',    emoji:'🧪', name:'Жидкости',   subcats:['Elf Bar','ELFLIQ','Vaporesso','Другое'] },
@@ -876,13 +880,13 @@ const DEFAULT_CATS = [
   { id:'snuse',     emoji:'🟢', name:'Снюс',        subcats:["Killa","White Fox","Oden's","Другое"] },
   { id:'parts',     emoji:'🔧', name:'Расходники',  subcats:[] },
 ];
-
+ 
 function loadCats() {
   try { const s = localStorage.getItem('bv_cats_v3'); if (s) return JSON.parse(s); } catch(e){}
   return DEFAULT_CATS.map(c => ({...c}));
 }
 function saveCats() { localStorage.setItem('bv_cats_v3', JSON.stringify(categories)); }
-
+ 
 // ══ CART ══
 function cartCount() { return Object.values(cart).reduce((a,b)=>a+b,0); }
 function cartTotal() {
@@ -917,7 +921,7 @@ function removeFromCart(productId) {
   delete cart[String(productId)];
   updateCartBadge();
 }
-
+ 
 // ══ SCREENS ══
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -940,11 +944,11 @@ function updateNavBtns(activeScreen) {
   document.getElementById('navCatalog').classList.toggle('active', activeScreen === 'screenCatalog' || activeScreen === 'screenSubcat' || activeScreen === 'screenProducts');
   document.getElementById('navCart').classList.toggle('active', activeScreen === 'screenCart');
 }
-
+ 
 // ══ LOAD PRODUCTS ══
 const CACHE_KEY = 'bv_products_cache';
 const CACHE_TTL = 5 * 60 * 1000; // 5 минут
-
+ 
 function sanitizeProducts(raw) {
   return (raw || []).map(p => ({
     ...p,
@@ -959,7 +963,7 @@ function sanitizeProducts(raw) {
     volume:      safeNum(p.volume),
   }));
 }
-
+ 
 async function loadProducts() {
   // 1. Показать кеш мгновенно если есть
   try {
@@ -972,28 +976,36 @@ async function loadProducts() {
       return;
     }
   } catch(e) {}
-
+ 
   // 2. Нет кеша — грузим с индикатором
   fetchAndCache(true);
 }
-
+ 
 async function fetchAndCache(showLoading) {
   if (showLoading) {
     document.getElementById('catListEl').innerHTML =
       '<div class="loading"><div class="spinner"></div><span style="font-size:13px;color:var(--muted)">Загружаем каталог...</span></div>';
   }
   try {
-    const res  = await fetch(`${API_URL}?action=getProducts`);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000); // 12 сек таймаут
+    const res  = await fetch(`${API_URL}?action=getProducts`, { signal: controller.signal });
+    clearTimeout(timeout);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     allProducts = sanitizeProducts(data.products);
     localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: allProducts }));
   } catch(e) {
-    if (!allProducts.length) allProducts = [];
+    if (!allProducts.length) {
+      allProducts = [];
+      document.getElementById('catListEl').innerHTML =
+        '<div class="empty"><div class="empty-icon">⚠️</div><p>Не удалось загрузить</p><small style="color:var(--muted);font-size:12px;margin-top:6px;display:block">Проверь подключение к интернету</small><button onclick="loadProducts()" style="margin-top:14px;background:var(--accent);color:white;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:800;cursor:pointer">Повторить</button></div>';
+      return;
+    }
   }
   renderCatList();
 }
-
+ 
 // ══ CAT LIST ══
 function renderCatList() {
   const el = document.getElementById('catListEl');
@@ -1011,20 +1023,20 @@ function renderCatList() {
     </div>`;
   }).join('');
 }
-
+ 
 function openCategory(catId) {
   currentCatId = catId;
   const cat = categories.find(c => c.id === catId);
   if (!cat) return;
   document.getElementById('subcatTitle').textContent = `${cat.emoji} ${cat.name}`;
-
+ 
   // If no subcats — go straight to products
   if (!cat.subcats || cat.subcats.length === 0) {
     currentSubcat = null;
     showProductsFor(catId, null, cat.name);
     return;
   }
-
+ 
   // Show subcat screen
   const el = document.getElementById('subcatListEl');
   const allCount = allProducts.filter(p => p.category === catId && p.available).length;
@@ -1047,7 +1059,7 @@ function openCategory(catId) {
     }).join('');
   showScreen('screenSubcat');
 }
-
+ 
 function showProductsFor(catId, subcat, label) {
   currentSubcat = subcat;
   document.getElementById('productsTitle').textContent = label;
@@ -1056,7 +1068,7 @@ function showProductsFor(catId, subcat, label) {
   renderProductsGrid(filtered);
   showScreen('screenProducts');
 }
-
+ 
 function renderProductsGrid(products) {
   const el = document.getElementById('productsGrid');
   if (!products.length) {
@@ -1065,7 +1077,7 @@ function renderProductsGrid(products) {
   }
   el.innerHTML = products.map(p => productCardHTML(p)).join('');
 }
-
+ 
 function productCardHTML(p) {
   const fp = finalPrice(p);
   return `
@@ -1088,11 +1100,11 @@ function productCardHTML(p) {
     </div>
   </div>`;
 }
-
+ 
 function finalPrice(p) {
   return p.discount > 0 ? (p.price*(1-p.discount/100)).toFixed(2) : p.price.toFixed(2);
 }
-
+ 
 // ══ SEARCH ══
 let searchTimer;
 function onSearch(val) {
@@ -1119,7 +1131,7 @@ function onSearch(val) {
     catArea.style.display    = 'none';
   }, 250);
 }
-
+ 
 // ══ PRODUCT MODAL ══
 let modalQty = 1;
 function openProduct(id) {
@@ -1172,7 +1184,7 @@ function addToCartFromModal(pid) {
   showToast(`Добавлено ${modalQty} шт. в корзину ✓`, 'success');
 }
 function closeModal() { document.getElementById('productModal').classList.remove('open'); }
-
+ 
 // ══ CART RENDER ══
 function renderCart() {
   const el = document.getElementById('cartContent');
@@ -1201,7 +1213,7 @@ function renderCart() {
       </div>
     </div>`;
   }).join('');
-
+ 
   const count = cartCount();
   const total = cartTotal();
   el.innerHTML = `
@@ -1218,7 +1230,7 @@ function renderCart() {
       <button class="cart-checkout-btn" onclick="openOrder()">📦 Оформить заказ</button>
     </div>`;
 }
-
+ 
 function changeCartQty(id, delta) {
   const newQty = (cart[String(id)] || 0) + delta;
   setCartQty(id, newQty);
@@ -1228,7 +1240,7 @@ function removeFromCartUI(id) {
   removeFromCart(id);
   renderCart();
 }
-
+ 
 // ══ ORDER FORM ══
 function openOrder() {
   const items = Object.entries(cart).filter(([id]) => allProducts.find(p=>String(p.id)===id));
@@ -1248,17 +1260,17 @@ function openOrder() {
   document.getElementById('orderOverlay').classList.add('open');
 }
 function closeOrder() { document.getElementById('orderOverlay').classList.remove('open'); }
-
+ 
 async function submitOrder() {
   const phone = document.getElementById('orderPhone').value.trim();
   if (!phone || phone.length < 7) { showToast('Введи корректный номер телефона', 'error'); return; }
   // Sanitize phone: only digits, +, -, spaces
   if (!/^[\d\+\-\s\(\)]{7,20}$/.test(phone)) { showToast('Некорректный номер', 'error'); return; }
-
+ 
   const comment = document.getElementById('orderComment').value.trim().slice(0,300);
   const user     = tg?.initDataUnsafe?.user;
   const username = user?.username ? '@'+user.username : (user?.first_name || 'Неизвестно');
-
+ 
   const items = Object.entries(cart)
     .filter(([id]) => allProducts.find(p=>String(p.id)===id))
     .map(([id,qty]) => {
@@ -1266,7 +1278,7 @@ async function submitOrder() {
       const fp = p.discount>0 ? (p.price*(1-p.discount/100)) : p.price;
       return { name: p.name, qty, price: (fp*qty).toFixed(2) };
     });
-
+ 
   const payload = {
     action: 'sendOrder',
     items,
@@ -1276,7 +1288,7 @@ async function submitOrder() {
     username,
     userId: user?.id || ''
   };
-
+ 
   try {
     await fetch(API_URL, { method:'POST', body: JSON.stringify(payload) });
     cart = {};
@@ -1289,7 +1301,7 @@ async function submitOrder() {
     showToast('Ошибка отправки', 'error');
   }
 }
-
+ 
 // ══ ADMIN ══
 function openAdmin() {
   if (!isAdmin) return;
@@ -1309,7 +1321,7 @@ function adminTab(tab, btn) {
   if (tab==='list') renderAdminList();
   if (tab==='cats') renderCatEditor();
 }
-
+ 
 function fillCatSelects() {
   const opts = categories.map(c=>`<option value="${esc(c.id)}">${esc(c.emoji)} ${esc(c.name)}</option>`).join('');
   ['aCategory','eCategory'].forEach(id => {
@@ -1328,7 +1340,7 @@ function fillSubcatSelect(catId, subcatId) {
   sub.innerHTML = '<option value="">— Нет —</option>' +
     (cat?.subcats||[]).map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
 }
-
+ 
 // PHOTO UPLOAD
 async function uploadPhoto(input, photoId, previewId, uploadingId) {
   const file = input.files[0];
@@ -1367,7 +1379,7 @@ function syncPhoto(urlId, photoId, previewId) {
   if (url) { pr.src=url; pr.classList.add('show'); }
   else { pr.classList.remove('show'); }
 }
-
+ 
 // ADD PRODUCT
 async function doAdd() {
   const name  = document.getElementById('aName').value.trim().slice(0,200);
@@ -1392,7 +1404,7 @@ async function doAdd() {
     document.getElementById('aPreview').classList.remove('show');
   } catch(e) { showToast('Ошибка: '+e.message, 'error'); }
 }
-
+ 
 // ADMIN LIST
 async function renderAdminList() {
   const el = document.getElementById('adminList');
@@ -1439,7 +1451,7 @@ async function delProduct(id) {
     renderAdminList();
   } catch(e) { showToast('Ошибка','error'); }
 }
-
+ 
 // EDIT
 function openEdit(id) {
   const p = allProducts.find(x=>String(x.id)===String(id));
@@ -1485,7 +1497,7 @@ async function doUpdate() {
     renderAdminList();
   } catch(e) { showToast('Ошибка: '+e.message,'error'); }
 }
-
+ 
 // CAT EDITOR
 function renderCatEditor() {
   const el = document.getElementById('catEditorList');
@@ -1544,7 +1556,7 @@ function delCat(id) {
   saveCats(); renderCatEditor(); renderCatList(); fillCatSelects();
   showToast('Удалено');
 }
-
+ 
 // ══ TOAST ══
 function showToast(msg, type='') {
   const t = document.getElementById('toast');
@@ -1553,17 +1565,18 @@ function showToast(msg, type='') {
   clearTimeout(t._timer);
   t._timer = setTimeout(()=>t.classList.remove('show'), 2800);
 }
-
+ 
 // ══ INIT ══
 // Override screenCart show to render cart
 const origShowScreen = showScreen;
 document.getElementById('navCart').addEventListener('click', () => { renderCart(); });
-
+ 
 // Also render cart when going to it via back button etc.
 const _origGoBack = goBack;
-
+ 
 checkAdmin();
 loadProducts();
 </script>
 </body>
 </html>
+ 

@@ -121,7 +121,7 @@ body {
 }
 .cat-card:active { background: var(--surface2); border-color: var(--accent); }
 .cat-card-img {
-  width: 56px; height: 56px; border-radius: 12px;
+  width: 72px; height: 72px; border-radius: 14px;
   background: var(--surface2);
   display: flex; align-items: center; justify-content: center;
   font-size: 28px; flex-shrink: 0;
@@ -175,7 +175,7 @@ body {
 }
 .product-card:active { border-color: var(--accent); transform: scale(0.98); }
 .product-img {
-  width: 100%; aspect-ratio: 1/1;
+  width: 100%; aspect-ratio: 4/5;
   background: var(--surface2);
   display: flex; align-items: center; justify-content: center;
   font-size: 44px; position: relative; overflow: hidden;
@@ -225,7 +225,7 @@ body {
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 14px auto 0; }
 .modal-img {
-  width: 100%; height: 260px;
+  width: 100%; height: 320px;
   background: var(--surface); position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: center; font-size: 80px;
 }
@@ -616,6 +616,17 @@ body {
   </div>
 </div>
 
+<!-- ══════════ SCREEN: SUB-SUBCATEGORIES ══════════ -->
+<div class="screen" id="screenSubsub">
+  <div class="topbar">
+    <div class="topbar-back" onclick="goBack()">←</div>
+    <div class="topbar-title" id="subsubTitle">Бренд</div>
+  </div>
+  <div class="scroll-area">
+    <div class="subcat-list" id="subsubListEl"></div>
+  </div>
+</div>
+
 <!-- ══════════ SCREEN: PRODUCTS ══════════ -->
 <div class="screen" id="screenProducts">
   <div class="topbar">
@@ -709,7 +720,9 @@ body {
     <label class="form-label">Категория</label>
     <select class="form-select" id="aCategory" onchange="fillSubcatSelect('aCategory','aSubcategory')"></select>
     <label class="form-label">Подкатегория / Производитель</label>
-    <select class="form-select" id="aSubcategory"><option value="">— Нет —</option></select>
+    <select class="form-select" id="aSubcategory" onchange="fillSubsubSelect('aCategory','aSubcategory','aSubsub')"><option value="">— Нет —</option></select>
+    <label class="form-label">Линейка (подподкатегория)</label>
+    <select class="form-select" id="aSubsub"><option value="">— Нет —</option></select>
     <label class="form-label">Описание</label>
     <textarea class="form-input" id="aDesc" rows="3" placeholder="Вкус, особенности..."></textarea>
     <div class="form-row" style="margin-top:14px">
@@ -774,8 +787,10 @@ body {
     <input class="form-input" type="text" id="eName">
     <label class="form-label">Категория</label>
     <select class="form-select" id="eCategory" onchange="fillSubcatSelect('eCategory','eSubcategory')"></select>
-    <label class="form-label">Подкатегория</label>
-    <select class="form-select" id="eSubcategory"><option value="">— Нет —</option></select>
+    <label class="form-label">Подкатегория / Производитель</label>
+    <select class="form-select" id="eSubcategory" onchange="fillSubsubSelect('eCategory','eSubcategory','eSubsub')"><option value="">— Нет —</option></select>
+    <label class="form-label">Линейка (подподкатегория)</label>
+    <select class="form-select" id="eSubsub"><option value="">— Нет —</option></select>
     <label class="form-label">Описание</label>
     <textarea class="form-input" id="eDesc" rows="3"></textarea>
     <div class="form-row" style="margin-top:14px">
@@ -796,7 +811,7 @@ body {
 // ══════════════════════════════════
 // CONFIG
 // ══════════════════════════════════
-const API_URL   = 'https://script.google.com/macros/s/AKfycbxT-elfHy7tvL3hrKZIFP3em1dOsFkzsOMeEcS4qwsBfRwGV9L6wHZUW_RWF8X-1dvD/exec';
+const API_URL   = 'https://script.google.com/macros/s/AKfycbxXytkp8Upxj9-LQ0S1BpzgiFhLrGfmVYbDblTHhBM7H8HRwpkU6HFV1R7SCidnDXRa/exec';
 // IMGBB ключ не хранится в коде — загрузка идёт через бэкенд
 const IMGBB_KEY = '';
 const ADMIN_IDS  = [1016541789];
@@ -869,18 +884,46 @@ function checkAdmin() {
 
 // ══ CATEGORIES ══
 const DEFAULT_CATS = [
-  { id:'liquid',    emoji:'🧪', name:'Жидкости',   subcats:['Elf Bar','ELFLIQ','Vaporesso','Другое'], photo:'', subcatPhotos:{} },
-  { id:'disposable',emoji:'🚬', name:'Одноразки',   subcats:[], photo:'', subcatPhotos:{} },
-  { id:'pod',       emoji:'💨', name:'Pod-системы', subcats:[], photo:'', subcatPhotos:{} },
-  { id:'snuse',     emoji:'🟢', name:'Снюс',        subcats:["Killa","White Fox","Oden's","Другое"], photo:'', subcatPhotos:{} },
-  { id:'parts',     emoji:'🔧', name:'Расходники',  subcats:[], photo:'', subcatPhotos:{} },
+  { id:'liquid',    emoji:'🧪', name:'Жидкости',
+    subcats:[
+      { name:'Elf Bar',   photo:'', subsubs:['Elf Bar 4000','Elf Bar 5000','Lost Mary'] },
+      { name:'ELFLIQ',    photo:'', subsubs:[] },
+      { name:'Vaporesso', photo:'', subsubs:[] },
+      { name:'Другое',    photo:'', subsubs:[] },
+    ], photo:'' },
+  { id:'disposable',emoji:'🚬', name:'Одноразки',    subcats:[], photo:'' },
+  { id:'pod',       emoji:'💨', name:'Pod-системы',  subcats:[], photo:'' },
+  { id:'snuse',     emoji:'🟢', name:'Снюс',
+    subcats:[
+      { name:'Killa',     photo:'', subsubs:[] },
+      { name:'White Fox', photo:'', subsubs:[] },
+      { name:"Oden's",    photo:'', subsubs:[] },
+      { name:'Другое',    photo:'', subsubs:[] },
+    ], photo:'' },
+  { id:'parts',     emoji:'🔧', name:'Расходники',   subcats:[], photo:'' },
 ];
 
 function loadCats() {
-  try { const s = localStorage.getItem('bv_cats_v3'); if (s) return JSON.parse(s); } catch(e){}
-  return DEFAULT_CATS.map(c => ({...c}));
+  try {
+    const s = localStorage.getItem('bv_cats_v4');
+    if (s) return JSON.parse(s);
+    // migrate from v3
+    const old = localStorage.getItem('bv_cats_v3');
+    if (old) {
+      const cats = JSON.parse(old);
+      return cats.map(c => ({
+        ...c,
+        subcats: (c.subcats||[]).map(sub =>
+          typeof sub === 'string'
+            ? { name: sub, photo: '', subsubs: [] }
+            : { subsubs: [], ...sub }
+        )
+      }));
+    }
+  } catch(e){}
+  return DEFAULT_CATS.map(c => JSON.parse(JSON.stringify(c)));
 }
-function saveCats() { localStorage.setItem('bv_cats_v3', JSON.stringify(categories)); }
+function saveCats() { localStorage.setItem('bv_cats_v4', JSON.stringify(categories)); }
 
 // ══ STATE ══
 let allProducts = [];
@@ -889,6 +932,7 @@ let cart        = {};            // { productId: qty }
 let screenStack = ['screenCatalog'];
 let currentCatId   = null;
 let currentSubcat  = null;
+let currentSubsub  = null;
 
 // ══ CART ══
 function cartCount() { return Object.values(cart).reduce((a,b)=>a+b,0); }
@@ -944,7 +988,7 @@ function navTo(id) {
   showScreen(id);
 }
 function updateNavBtns(activeScreen) {
-  document.getElementById('navCatalog').classList.toggle('active', activeScreen === 'screenCatalog' || activeScreen === 'screenSubcat' || activeScreen === 'screenProducts');
+  document.getElementById('navCatalog').classList.toggle('active', ['screenCatalog','screenSubcat','screenSubsub','screenProducts'].includes(activeScreen));
   document.getElementById('navCart').classList.toggle('active', activeScreen === 'screenCart');
 }
 
@@ -1027,48 +1071,87 @@ function renderCatList() {
 
 function openCategory(catId) {
   currentCatId = catId;
+  currentSubcat = null; currentSubsub = null;
   const cat = categories.find(c => c.id === catId);
   if (!cat) return;
-  document.getElementById('subcatTitle').textContent = `${cat.emoji} ${cat.name}`;
+  document.getElementById('subcatTitle').textContent = `${cat.emoji||''} ${cat.name}`;
 
-  // If no subcats — go straight to products
   if (!cat.subcats || cat.subcats.length === 0) {
-    currentSubcat = null;
-    showProductsFor(catId, null, cat.name);
+    showProductsFor(catId, null, null, cat.name);
     return;
   }
 
-  // Show subcat screen
   const el = document.getElementById('subcatListEl');
   const allCount = allProducts.filter(p => p.category === catId && p.available).length;
   el.innerHTML = `
-    <div class="subcat-card subcat-all" onclick="showProductsFor('${esc(catId)}', null, '${esc(cat.name)}')">
+    <div class="subcat-card subcat-all" onclick="showProductsFor('${esc(catId)}',null,null,'${esc(cat.name)}')">
       <div class="subcat-card-dot" style="background:var(--accent2)"></div>
       <div class="subcat-card-name">Все ${esc(cat.name)}</div>
       <div class="subcat-card-count">${allCount}</div>
       <div class="subcat-card-arrow">›</div>
     </div>` +
-    cat.subcats.map(s => {
+    cat.subcats.map(sub => {
+      const s = typeof sub === 'string' ? sub : sub.name;
+      const sPhoto = typeof sub === 'object' ? sub.photo : '';
+      const hasSubsubs = typeof sub === 'object' && sub.subsubs && sub.subsubs.length > 0;
       const cnt = allProducts.filter(p => p.category===catId && p.subcategory===s && p.available).length;
-      const sPhoto = cat.subcatPhotos && cat.subcatPhotos[s];
+      const onclick = hasSubsubs
+        ? `openSubcat('${esc(catId)}','${esc(s)}')`
+        : `showProductsFor('${esc(catId)}','${esc(s)}',null,'${esc(s)}')`;
       return `
-      <div class="subcat-card" onclick="showProductsFor('${esc(catId)}','${esc(s)}','${esc(s)}')">
+      <div class="subcat-card" onclick="${onclick}">
         ${sPhoto
-          ? `<div style="width:36px;height:36px;border-radius:8px;overflow:hidden;flex-shrink:0"><img src="${esc(sPhoto)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='📦'"></div>`
+          ? `<div style="width:52px;height:52px;border-radius:10px;overflow:hidden;flex-shrink:0"><img src="${esc(sPhoto)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='📦'"></div>`
           : `<div class="subcat-card-dot"></div>`}
         <div class="subcat-card-name">${esc(s)}</div>
-        <div class="subcat-card-count">${cnt}</div>
+        <div class="subcat-card-count">${cnt}${hasSubsubs ? ' · '+sub.subsubs.length+' линеек' : ''}</div>
         <div class="subcat-card-arrow">›</div>
       </div>`;
     }).join('');
   showScreen('screenSubcat');
 }
 
-function showProductsFor(catId, subcat, label) {
+function openSubcat(catId, subcatName) {
+  currentSubcat = subcatName;
+  currentSubsub = null;
+  const cat = categories.find(c => c.id === catId);
+  const sub = cat?.subcats?.find(s => (typeof s==='string'?s:s.name) === subcatName);
+  document.getElementById('subsubTitle').textContent = esc(subcatName);
+
+  const subsubs = typeof sub === 'object' ? (sub.subsubs || []) : [];
+  const el = document.getElementById('subsubListEl');
+  const allCount = allProducts.filter(p => p.category===catId && p.subcategory===subcatName && p.available).length;
+  el.innerHTML = `
+    <div class="subcat-card subcat-all" onclick="showProductsFor('${esc(catId)}','${esc(subcatName)}',null,'${esc(subcatName)}')">
+      <div class="subcat-card-dot" style="background:var(--accent2)"></div>
+      <div class="subcat-card-name">Все ${esc(subcatName)}</div>
+      <div class="subcat-card-count">${allCount}</div>
+      <div class="subcat-card-arrow">›</div>
+    </div>` +
+    subsubs.map(ss => {
+      const ssName = typeof ss === 'string' ? ss : ss.name;
+      const ssPhoto = typeof ss === 'object' ? ss.photo : '';
+      const cnt = allProducts.filter(p => p.category===catId && p.subcategory===subcatName && p.subsubcategory===ssName && p.available).length;
+      return `
+      <div class="subcat-card" onclick="showProductsFor('${esc(catId)}','${esc(subcatName)}','${esc(ssName)}','${esc(ssName)}')">
+        ${ssPhoto
+          ? `<div style="width:36px;height:36px;border-radius:8px;overflow:hidden;flex-shrink:0"><img src="${esc(ssPhoto)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='📦'"></div>`
+          : `<div class="subcat-card-dot"></div>`}
+        <div class="subcat-card-name">${esc(ssName)}</div>
+        <div class="subcat-card-count">${cnt}</div>
+        <div class="subcat-card-arrow">›</div>
+      </div>`;
+    }).join('');
+  showScreen('screenSubsub');
+}
+
+function showProductsFor(catId, subcat, subsub, label) {
   currentSubcat = subcat;
-  document.getElementById('productsTitle').textContent = label;
+  currentSubsub = subsub;
+  document.getElementById('productsTitle').textContent = label || subcat || catId;
   let filtered = allProducts.filter(p => p.category === catId);
-  if (subcat) filtered = filtered.filter(p => p.subcategory === subcat);
+  if (subcat)  filtered = filtered.filter(p => p.subcategory === subcat);
+  if (subsub)  filtered = filtered.filter(p => p.subsubcategory === subsub);
   renderProductsGrid(filtered);
   showScreen('screenProducts');
 }
@@ -1334,15 +1417,32 @@ function fillCatSelects() {
   });
   fillSubcatSelect('aCategory','aSubcategory');
   fillSubcatSelect('eCategory','eSubcategory');
+  const aSubsub = document.getElementById('aSubsub');
+  const eSubsub = document.getElementById('eSubsub');
+  if (aSubsub) aSubsub.innerHTML = '<option value="">— Нет —</option>';
+  if (eSubsub) eSubsub.innerHTML = '<option value="">— Нет —</option>';
 }
 function fillSubcatSelect(catId, subcatId) {
-  const sel = document.getElementById(document.getElementById(catId).value);
   const catVal = document.getElementById(catId).value;
   const cat = categories.find(c=>c.id===catVal);
   const sub = document.getElementById(subcatId);
   if (!sub) return;
+  const subcats = (cat?.subcats||[]).map(s=>typeof s==='string'?s:s.name);
   sub.innerHTML = '<option value="">— Нет —</option>' +
-    (cat?.subcats||[]).map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+    subcats.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+}
+
+function fillSubsubSelect(catId, subcatId, subsubId) {
+  fillSubcatSelect(catId, subcatId);
+  const catVal    = document.getElementById(catId).value;
+  const subcatVal = document.getElementById(subcatId).value;
+  const cat = categories.find(c=>c.id===catVal);
+  const sub = (cat?.subcats||[]).find(s=>(typeof s==='string'?s:s.name)===subcatVal);
+  const el  = document.getElementById(subsubId);
+  if (!el) return;
+  const subsubs = (typeof sub==='object' ? sub.subsubs||[] : []).map(ss=>typeof ss==='string'?ss:ss.name);
+  el.innerHTML = '<option value="">— Нет —</option>' +
+    subsubs.map(ss=>`<option value="${esc(ss)}">${esc(ss)}</option>`).join('');
 }
 
 // PHOTO UPLOAD
@@ -1392,19 +1492,20 @@ async function doAdd() {
   const payload = {
     action: 'addProduct',
     name, price,
-    category:    document.getElementById('aCategory').value,
-    subcategory: document.getElementById('aSubcategory').value,
-    description: document.getElementById('aDesc').value.trim().slice(0,1000),
-    discount:    Math.min(99, safeNum(document.getElementById('aDiscount').value)),
-    strength:    safeNum(document.getElementById('aStrength').value),
-    volume:      safeNum(document.getElementById('aVolume').value),
-    photo:       safeUrl(document.getElementById('aPhoto').value.trim()),
+    category:       document.getElementById('aCategory').value,
+    subcategory:    document.getElementById('aSubcategory').value,
+    subsubcategory: document.getElementById('aSubsub').value,
+    description:    document.getElementById('aDesc').value.trim().slice(0,1000),
+    discount:       Math.min(99, safeNum(document.getElementById('aDiscount').value)),
+    strength:       safeNum(document.getElementById('aStrength').value),
+    volume:         safeNum(document.getElementById('aVolume').value),
+    photo:          safeUrl(document.getElementById('aPhoto').value.trim()),
   };
   try {
     await adminFetch(payload);
     localStorage.removeItem(CACHE_KEY);
     showToast('Товар добавлен ✓', 'success');
-    ['aName','aDesc','aPrice','aDiscount','aStrength','aVolume','aPhoto','aPhotoUrl'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+    ['aName','aDesc','aPrice','aDiscount','aStrength','aVolume','aPhoto','aPhotoUrl','aSubsub'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
     document.getElementById('aPreview').classList.remove('show');
   } catch(e) { showToast('Ошибка: '+e.message, 'error'); }
 }
@@ -1466,6 +1567,8 @@ function openEdit(id) {
   document.getElementById('eCategory').value = p.category;
   fillSubcatSelect('eCategory','eSubcategory');
   document.getElementById('eSubcategory').value = p.subcategory||'';
+  fillSubsubSelect('eCategory','eSubcategory','eSubsub');
+  document.getElementById('eSubsub').value = p.subsubcategory||'';
   document.getElementById('eDesc').value     = p.description||'';
   document.getElementById('ePrice').value    = p.price;
   document.getElementById('eDiscount').value = p.discount||0;
@@ -1485,13 +1588,14 @@ async function doUpdate() {
   if (!name||!price) { showToast('Заполни название и цену','error'); return; }
   const payload = {
     action:'updateProduct', id, name, price,
-    category:    document.getElementById('eCategory').value,
-    subcategory: document.getElementById('eSubcategory').value,
-    description: document.getElementById('eDesc').value.trim().slice(0,1000),
-    discount:    Math.min(99,safeNum(document.getElementById('eDiscount').value)),
-    strength:    safeNum(document.getElementById('eStrength').value),
-    volume:      safeNum(document.getElementById('eVolume').value),
-    photo:       safeUrl(document.getElementById('ePhoto').value.trim()),
+    category:       document.getElementById('eCategory').value,
+    subcategory:    document.getElementById('eSubcategory').value,
+    subsubcategory: document.getElementById('eSubsub').value,
+    description:    document.getElementById('eDesc').value.trim().slice(0,1000),
+    discount:       Math.min(99,safeNum(document.getElementById('eDiscount').value)),
+    strength:       safeNum(document.getElementById('eStrength').value),
+    volume:         safeNum(document.getElementById('eVolume').value),
+    photo:          safeUrl(document.getElementById('ePhoto').value.trim()),
   };
   try {
     await adminFetch(payload);
@@ -1508,27 +1612,51 @@ function renderCatEditor() {
   el.innerHTML = categories.map(c=>`
     <div class="cat-editor-item">
       <div class="cat-editor-header">
-        <div class="cat-editor-thumb" id="cthumb_${esc(c.id)}" onclick="triggerCatPhoto('${esc(c.id)}')" title="Нажми чтобы сменить фото" style="width:44px;height:44px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1.5px dashed var(--border2);">
+        <div onclick="triggerCatPhoto('${esc(c.id)}')" style="width:44px;height:44px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1.5px dashed var(--border2);">
           ${c.photo ? `<img src="${esc(c.photo)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='📦'">` : esc(c.emoji||'📦')}
         </div>
         <input type="file" accept="image/*" id="cphoto_${esc(c.id)}" style="display:none" onchange="uploadCatPhoto('${esc(c.id)}',this)">
         <div class="cat-editor-name">${esc(c.name)}</div>
-        <button class="cat-toggle-btn" onclick="toggleSubcats('se_${esc(c.id)}')">Подкат. ▾</button>
+        <button class="cat-toggle-btn" onclick="toggleSubcats('se_${esc(c.id)}')">▾</button>
         <button class="cat-del-btn" onclick="delCat('${esc(c.id)}')">✕</button>
       </div>
       <div class="subcat-expand" id="se_${esc(c.id)}">
-        <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:8px">📷 Фото подкатегорий</div>
-        ${(c.subcats||[]).map((s,si)=>`
-          <div class="subcat-row">
-            <div class="subcat-thumb" id="sthumb_${esc(c.id)}_${si}" onclick="triggerSubcatPhoto('${esc(c.id)}',${si})" title="Нажми для фото" style="width:32px;height:32px;border-radius:7px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1px dashed var(--border2);">
-              ${(c.subcatPhotos&&c.subcatPhotos[s]) ? `<img src="${esc(c.subcatPhotos[s])}" style="width:100%;height:100%;object-fit:cover">` : '📦'}
+        ${(c.subcats||[]).map((sub,si)=>{
+          const sName = typeof sub==='string'?sub:sub.name;
+          const sPhoto = typeof sub==='object'?sub.photo:'';
+          const subsubs = typeof sub==='object'?(sub.subsubs||[]):[];
+          return `
+          <div style="background:var(--surface2);border-radius:10px;padding:10px;margin-bottom:8px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+              <div onclick="triggerSubcatPhoto('${esc(c.id)}',${si})" style="width:36px;height:36px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1px dashed var(--border2);">
+                ${sPhoto?`<img src="${esc(sPhoto)}" style="width:100%;height:100%;object-fit:cover">`:'📦'}
+              </div>
+              <input type="file" accept="image/*" id="sphoto_${esc(c.id)}_${si}" style="display:none" onchange="uploadSubcatPhoto('${esc(c.id)}',${si},this)">
+              <div style="flex:1;font-size:13px;font-weight:800;color:var(--text)">${esc(sName)}</div>
+              <button class="subcat-row-del" onclick="delSubcat('${esc(c.id)}','${esc(sName)}')">✕</button>
             </div>
-            <input type="file" accept="image/*" id="sphoto_${esc(c.id)}_${si}" style="display:none" onchange="uploadSubcatPhoto('${esc(c.id)}','${esc(s)}',this)">
-            <div class="subcat-row-name">• ${esc(s)}</div>
-            <button class="subcat-row-del" onclick="delSubcat('${esc(c.id)}','${esc(s)}')">✕</button>
-          </div>`).join('')}
+            <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px">Линейки:</div>
+            ${subsubs.map((ss,ssi)=>{
+              const ssName=typeof ss==='string'?ss:ss.name;
+              const ssPhoto=typeof ss==='object'?ss.photo:'';
+              return `<div style="display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border);">
+                <div onclick="triggerSubsubPhoto('${esc(c.id)}',${si},${ssi})" style="width:28px;height:28px;border-radius:6px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1px dashed var(--border2);">
+                  ${ssPhoto?`<img src="${esc(ssPhoto)}" style="width:100%;height:100%;object-fit:cover">`:'📷'}
+                </div>
+                <input type="file" accept="image/*" id="ssphoto_${esc(c.id)}_${si}_${ssi}" style="display:none" onchange="uploadSubsubPhoto('${esc(c.id)}',${si},${ssi},this)">
+                <div style="flex:1;font-size:12px;font-weight:700;color:var(--text2)">${esc(ssName)}</div>
+                <button class="subcat-row-del" onclick="delSubsub('${esc(c.id)}',${si},'${esc(ssName)}')">✕</button>
+              </div>`;
+            }).join('')}
+            <div style="display:flex;gap:7px;margin-top:8px;">
+              <input class="form-input" style="flex:1;padding:8px 10px;font-size:12px" id="nss_${esc(c.id)}_${si}" placeholder="Новая линейка...">
+              <button class="add-subcat-btn" onclick="addSubsub('${esc(c.id)}',${si})">＋</button>
+            </div>
+          </div>`;
+        }).join('')}
+        <div style="font-size:11px;color:var(--muted);font-weight:700;margin:8px 0 6px">+ Подкатегория / Бренд</div>
         <div class="add-subcat-row">
-          <input class="form-input add-subcat-input" id="ns_${esc(c.id)}" placeholder="Новая подкатегория...">
+          <input class="form-input add-subcat-input" id="ns_${esc(c.id)}" placeholder="Название бренда...">
           <button class="add-subcat-btn" onclick="addSubcat('${esc(c.id)}')">＋</button>
         </div>
       </div>
@@ -1542,14 +1670,44 @@ function addSubcat(catId) {
   const cat = categories.find(c=>c.id===catId);
   if (!cat) return;
   if (!cat.subcats) cat.subcats=[];
-  if (!cat.subcats.includes(name)) cat.subcats.push(name);
-  saveCats(); input.value=''; renderCatEditor(); showToast('Добавлено','success');
+  const exists = cat.subcats.some(s=>(typeof s==='string'?s:s.name)===name);
+  if (!exists) cat.subcats.push({ name, photo:'', subsubs:[] });
+  saveCats(); input.value=''; renderCatEditor(); showToast('Бренд добавлен','success');
 }
 function delSubcat(catId, name) {
   const cat = categories.find(c=>c.id===catId);
   if (!cat) return;
-  cat.subcats = (cat.subcats||[]).filter(s=>s!==name);
+  cat.subcats = (cat.subcats||[]).filter(s=>(typeof s==='string'?s:s.name)!==name);
   saveCats(); renderCatEditor(); showToast('Удалено');
+}
+function addSubsub(catId, si) {
+  const input = document.getElementById(`nss_${catId}_${si}`);
+  const name  = input.value.trim().slice(0,100);
+  if (!name) return;
+  const cat = categories.find(c=>c.id===catId);
+  if (!cat || !cat.subcats[si]) return;
+  const sub = cat.subcats[si];
+  if (!sub.subsubs) sub.subsubs=[];
+  if (!sub.subsubs.some(ss=>(typeof ss==='string'?ss:ss.name)===name))
+    sub.subsubs.push({ name, photo:'' });
+  saveCats(); input.value=''; renderCatEditor(); showToast('Линейка добавлена','success');
+}
+function delSubsub(catId, si, name) {
+  const cat = categories.find(c=>c.id===catId);
+  if (!cat || !cat.subcats[si]) return;
+  cat.subcats[si].subsubs = (cat.subcats[si].subsubs||[]).filter(ss=>(typeof ss==='string'?ss:ss.name)!==name);
+  saveCats(); renderCatEditor(); showToast('Удалено');
+}
+function triggerSubsubPhoto(catId, si, ssi) {
+  document.getElementById(`ssphoto_${catId}_${si}_${ssi}`).click();
+}
+async function uploadSubsubPhoto(catId, si, ssi, input) {
+  const url = await uploadCatPhotoFile(input.files[0]);
+  if (!url) return;
+  const cat = categories.find(c=>c.id===catId);
+  if (!cat?.subcats?.[si]?.subsubs?.[ssi]) return;
+  cat.subcats[si].subsubs[ssi] = { name: typeof cat.subcats[si].subsubs[ssi]==='string'?cat.subcats[si].subsubs[ssi]:cat.subcats[si].subsubs[ssi].name, photo: url };
+  saveCats(); renderCatEditor(); showToast('Фото линейки обновлено ✓','success');
 }
 function addCat() {
   const name  = document.getElementById('catName').value.trim().slice(0,50);
@@ -1588,15 +1746,17 @@ async function uploadCatPhoto(catId, input) {
   showToast('Фото категории обновлено ✓','success');
 }
 
-async function uploadSubcatPhoto(catId, subcatName, input) {
+async function uploadSubcatPhoto(catId, si, input) {
   const url = await uploadCatPhotoFile(input.files[0]);
   if (!url) return;
   const cat = categories.find(c=>c.id===catId);
-  if (!cat) return;
-  if (!cat.subcatPhotos) cat.subcatPhotos = {};
-  cat.subcatPhotos[subcatName] = url;
+  if (!cat?.subcats?.[si]) return;
+  cat.subcats[si].photo = url;
   saveCats(); renderCatEditor();
-  showToast('Фото подкатегории обновлено ✓','success');
+  showToast('Фото бренда обновлено ✓','success');
+}
+function triggerSubcatPhoto(catId, si) {
+  document.getElementById(`sphoto_${catId}_${si}`).click();
 }
 
 async function uploadCatPhotoFile(file) {

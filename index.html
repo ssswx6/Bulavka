@@ -1488,7 +1488,7 @@ function syncPhoto(urlId, photoId, previewId) {
 
 // ADD PRODUCT
 async function doAdd() {
-  if (photoUploading) { showToast('Подожди — фото ещё загружается...','error'); return; }
+  if (window.photoUploading) { showToast('Подожди — фото ещё загружается...','error'); return; }
   const name  = document.getElementById('aName').value.trim().slice(0,200);
   const price = safePrice(document.getElementById('aPrice').value);
   if (!name || !price) { showToast('Заполни название и цену', 'error'); return; }
@@ -1585,7 +1585,7 @@ function openEdit(id) {
 }
 function closeEdit() { document.getElementById('editOverlay').classList.remove('open'); localStorage.removeItem(CACHE_KEY); }
 async function doUpdate() {
-  if (photoUploading) { showToast('Подожди — фото ещё загружается...','error'); return; }
+  if (window.photoUploading) { showToast('Подожди — фото ещё загружается...','error'); return; }
   const id    = document.getElementById('eId').value;
   const name  = document.getElementById('eName').value.trim().slice(0,200);
   const price = safePrice(document.getElementById('ePrice').value);

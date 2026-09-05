@@ -1590,17 +1590,25 @@ async function doUpdate() {
   const name  = document.getElementById('eName').value.trim().slice(0,200);
   const price = safePrice(document.getElementById('ePrice').value);
   if (!name||!price) { showToast('Заполни название и цену','error'); return; }
+  const photoVal = document.getElementById('ePhoto') ? document.getElementById('ePhoto').value.trim() : '';
+  const photoUrlVal = document.getElementById('ePhotoUrl') ? document.getElementById('ePhotoUrl').value.trim() : '';
+  const finalPhoto = safeUrl(photoVal) || safeUrl(photoUrlVal);
+  console.log('ePhoto value:', photoVal);
+  console.log('ePhotoUrl value:', photoUrlVal);
+  console.log('finalPhoto:', finalPhoto);
+
   const payload = {
     action:'updateProduct', id, name, price,
     category:       document.getElementById('eCategory').value,
     subcategory:    document.getElementById('eSubcategory').value,
-    subsubcategory: document.getElementById('eSubsub').value,
+    subsubcategory: document.getElementById('eSubsub') ? document.getElementById('eSubsub').value : '',
     description:    document.getElementById('eDesc').value.trim().slice(0,1000),
     discount:       Math.min(99,safeNum(document.getElementById('eDiscount').value)),
     strength:       safeNum(document.getElementById('eStrength').value),
     volume:         safeNum(document.getElementById('eVolume').value),
-    photo:          safeUrl(document.getElementById('ePhoto').value.trim()),
+    photo:          finalPhoto,
   };
+  console.log('payload photo:', payload.photo);
   try {
     await adminFetch(payload);
     localStorage.removeItem(CACHE_KEY);

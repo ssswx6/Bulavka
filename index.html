@@ -826,6 +826,7 @@ async function adminFetch(payload) {
   const userId   = tg?.initDataUnsafe?.user?.id || '';
   const res = await fetch(API_URL, {
     method: 'POST',
+    redirect: 'follow',
     body: JSON.stringify({ ...payload, initData, userId, secret: ADMIN_SECRET })
   });
   const data = await res.json();
@@ -994,7 +995,7 @@ function updateNavBtns(activeScreen) {
 
 // ══ LOAD PRODUCTS ══
 const CACHE_KEY = 'bv_products_cache';
-const CACHE_TTL = 30 * 1000; // 30 секунд
+const CACHE_TTL = 0; // всегда свежие данные
 
 function sanitizeProducts(raw) {
   return (raw || []).map(p => ({
@@ -1036,7 +1037,7 @@ async function fetchAndCache(showLoading) {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 12000); // 12 сек таймаут
-    const res  = await fetch(`${API_URL}?action=getProducts`, { signal: controller.signal });
+    const res  = await fetch(`${API_URL}?action=getProducts`, { signal: controller.signal, redirect: 'follow' });
     clearTimeout(timeout);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
@@ -1487,6 +1488,7 @@ function syncPhoto(urlId, photoId, previewId) {
 
 // ADD PRODUCT
 async function doAdd() {
+  if (photoUploading) { showToast('Подожди — фото ещё загружается...','error'); return; }
   const name  = document.getElementById('aName').value.trim().slice(0,200);
   const price = safePrice(document.getElementById('aPrice').value);
   if (!name || !price) { showToast('Заполни название и цену', 'error'); return; }
@@ -1583,6 +1585,7 @@ function openEdit(id) {
 }
 function closeEdit() { document.getElementById('editOverlay').classList.remove('open'); localStorage.removeItem(CACHE_KEY); }
 async function doUpdate() {
+  if (photoUploading) { showToast('Подожди — фото ещё загружается...','error'); return; }
   const id    = document.getElementById('eId').value;
   const name  = document.getElementById('eName').value.trim().slice(0,200);
   const price = safePrice(document.getElementById('ePrice').value);

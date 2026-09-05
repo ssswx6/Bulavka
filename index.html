@@ -811,24 +811,8 @@ body {
 // ══════════════════════════════════
 // CONFIG
 // ══════════════════════════════════
-const API_URL   = 'https://script.google.com/macros/s/AKfycbxeYGjU4P9s4-6VXg1BKaVLK7gxbyqaERfZEXPBwlmWDwOthFHADRZ5pQVJHh0U0811/exec';
+const API_URL   = 'https://script.google.com/macros/s/AKfycbxRQxkvq0lL3Sb16YzYz7OaKYTHXTkmGlwD9wMyMYwLFpuCCMpTs09Uje-7sy3EiQ7O/exec';
 // IMGBB ключ не хранится в коде — загрузка идёт через бэкенд
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 const IMGBB_KEY = '';
 const ADMIN_IDS  = [1016541789];
 const ADMIN_SECRET = 'bulavka_secret_2026'; // должен совпадать с бэкендом
@@ -1010,7 +994,7 @@ function updateNavBtns(activeScreen) {
 
 // ══ LOAD PRODUCTS ══
 const CACHE_KEY = 'bv_products_cache';
-const CACHE_TTL = 5 * 60 * 1000; // 5 минут
+const CACHE_TTL = 30 * 1000; // 30 секунд
 
 function sanitizeProducts(raw) {
   return (raw || []).map(p => ({
@@ -1413,6 +1397,7 @@ function openAdmin() {
 }
 function closeAdmin() {
   document.getElementById('adminOverlay').classList.remove('open');
+  localStorage.removeItem(CACHE_KEY);
   loadProducts();
 }
 function adminTab(tab, btn) {
@@ -1596,7 +1581,7 @@ function openEdit(id) {
   if (p.photo) { pr.src=p.photo; pr.classList.add('show'); } else { pr.classList.remove('show'); }
   document.getElementById('editOverlay').classList.add('open');
 }
-function closeEdit() { document.getElementById('editOverlay').classList.remove('open'); }
+function closeEdit() { document.getElementById('editOverlay').classList.remove('open'); localStorage.removeItem(CACHE_KEY); }
 async function doUpdate() {
   const id    = document.getElementById('eId').value;
   const name  = document.getElementById('eName').value.trim().slice(0,200);

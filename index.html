@@ -813,7 +813,7 @@ body {
 // ══════════════════════════════════
 const API_URL   = 'https://script.google.com/macros/s/AKfycbxRQxkvq0lL3Sb16YzYz7OaKYTHXTkmGlwD9wMyMYwLFpuCCMpTs09Uje-7sy3EiQ7O/exec';
 // IMGBB ключ не хранится в коде — загрузка идёт через бэкенд
-const IMGBB_KEY = '';
+const IMGBB_KEY = 'dc580b73a80b7d242eb613aeebade1e1';
 const ADMIN_IDS  = [1016541789];
 const ADMIN_SECRET = 'bulavka_secret_2026'; // должен совпадать с бэкендом
 
@@ -1768,14 +1768,13 @@ async function uploadCatPhotoFile(file) {
   if (file.size > 5*1024*1024) { showToast('Макс 5 МБ','error'); return null; }
   showToast('Загружаем фото...','');
   try {
-    const base64 = await new Promise((res,rej)=>{
-      const r=new FileReader();
-      r.onload=()=>res(r.result.split(',')[1]);
-      r.onerror=()=>rej();
-      r.readAsDataURL(file);
+    const fd = new FormData();
+    fd.append('image', file);
+    const res  = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
+      method: 'POST', body: fd
     });
-    const data = await adminFetch({ action:'uploadPhoto', image:base64, mimeType:file.type });
-    return data.url || null;
+    const data = await res.json();
+    return data.success && data.data ? data.data.url : null;
   } catch(e) { showToast('Ошибка загрузки','error'); return null; }
 }
 function delCat(id) {

@@ -121,7 +121,7 @@ body {
 }
 .cat-card:active { background: var(--surface2); border-color: var(--accent); }
 .cat-card-img {
-  width: 72px; height: 72px; border-radius: 14px;
+  width: 56px; height: 56px; border-radius: 12px;
   background: var(--surface2);
   display: flex; align-items: center; justify-content: center;
   font-size: 28px; flex-shrink: 0;
@@ -175,7 +175,7 @@ body {
 }
 .product-card:active { border-color: var(--accent); transform: scale(0.98); }
 .product-img {
-  width: 100%; aspect-ratio: 4/5;
+  width: 100%; aspect-ratio: 1/1;
   background: var(--surface2);
   display: flex; align-items: center; justify-content: center;
   font-size: 44px; position: relative; overflow: hidden;
@@ -225,7 +225,7 @@ body {
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 14px auto 0; }
 .modal-img {
-  width: 100%; height: 320px;
+  width: 100%; height: 260px;
   background: var(--surface); position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: center; font-size: 80px;
 }
@@ -461,6 +461,11 @@ body {
 .photo-upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
 .photo-preview { width: 100%; height: 110px; border-radius: 10px; object-fit: cover; margin-top: 8px; display: none; }
 .photo-preview.show { display: block; }
+.photo-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.photo-btn{position:relative;overflow:hidden;background:var(--surface);border:1.5px dashed var(--border2);border-radius:12px;padding:18px 8px;text-align:center;font-size:14px;font-weight:800;color:var(--text2)}
+.photo-btn:active{border-color:var(--accent);color:var(--accent2)}
+.photo-btn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;font-size:100px;cursor:pointer}
+.photo-clear{background:none;border:none;color:var(--red);font-size:12px;font-weight:800;padding:8px 0 0;cursor:pointer}
 .photo-uploading { font-size: 12px; color: var(--accent2); font-weight: 700; margin-top: 6px; display: none; }
 .photo-uploading.show { display: block; text-align: center; }
 .admin-product-item {
@@ -616,17 +621,6 @@ body {
   </div>
 </div>
 
-<!-- ══════════ SCREEN: SUB-SUBCATEGORIES ══════════ -->
-<div class="screen" id="screenSubsub">
-  <div class="topbar">
-    <div class="topbar-back" onclick="goBack()">←</div>
-    <div class="topbar-title" id="subsubTitle">Бренд</div>
-  </div>
-  <div class="scroll-area">
-    <div class="subcat-list" id="subsubListEl"></div>
-  </div>
-</div>
-
 <!-- ══════════ SCREEN: PRODUCTS ══════════ -->
 <div class="screen" id="screenProducts">
   <div class="topbar">
@@ -706,10 +700,7 @@ body {
   <div id="aTab">
     <div class="info-box">💡 Загрузи фото или вставь ссылку. Фото автоматически уходит в облако.</div>
     <label class="form-label">Фото</label>
-    <div class="photo-upload-area">
-      <input type="file" accept="image/*" onchange="uploadPhoto(this,'aPhoto','aPreview','aUploading')">
-      📷 Нажми чтобы выбрать фото
-    </div>
+    <div class="photo-btns"><label class="photo-btn">📷 Снять<input type="file" accept="image/*" capture="environment" onchange="uploadPhoto(this,'aPhoto','aPreview','aUploading')"></label><label class="photo-btn">🖼 Из галереи<input type="file" accept="image/*" onchange="uploadPhoto(this,'aPhoto','aPreview','aUploading')"></label></div><button type="button" class="photo-clear" onclick="clearPhoto('aPhoto','aPreview')">✕ Убрать фото</button>
     <img class="photo-preview" id="aPreview">
     <div class="photo-uploading" id="aUploading">⏳ Загружаем...</div>
     <input type="hidden" id="aPhoto">
@@ -720,9 +711,7 @@ body {
     <label class="form-label">Категория</label>
     <select class="form-select" id="aCategory" onchange="fillSubcatSelect('aCategory','aSubcategory')"></select>
     <label class="form-label">Подкатегория / Производитель</label>
-    <select class="form-select" id="aSubcategory" onchange="fillSubsubSelect('aCategory','aSubcategory','aSubsub')"><option value="">— Нет —</option></select>
-    <label class="form-label">Линейка (подподкатегория)</label>
-    <select class="form-select" id="aSubsub"><option value="">— Нет —</option></select>
+    <select class="form-select" id="aSubcategory"><option value="">— Нет —</option></select>
     <label class="form-label">Описание</label>
     <textarea class="form-input" id="aDesc" rows="3" placeholder="Вкус, особенности..."></textarea>
     <div class="form-row" style="margin-top:14px">
@@ -759,10 +748,8 @@ body {
     <div class="divider"></div>
     <div style="font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px">Новая категория</div>
     <div class="add-cat-row">
-      <div id="newCatThumb" onclick="document.getElementById('newCatFile').click()" style="width:50px;height:50px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;overflow:hidden;flex-shrink:0;border:2px dashed var(--border2);">📷</div>
-      <input type="file" accept="image/*" id="newCatFile" style="display:none" onchange="previewNewCat(this)">
-      <input type="hidden" id="newCatPhoto">
-      <input class="form-input" id="catName" placeholder="Название категории">
+      <input class="form-input add-cat-emoji-input" id="catEmoji" placeholder="🧊" maxlength="4">
+      <input class="form-input" id="catName" placeholder="Название">
     </div>
     <button class="submit-btn" onclick="addCat()">Добавить категорию</button>
   </div>
@@ -775,10 +762,7 @@ body {
     <div style="font-size:17px;font-weight:900;margin-bottom:14px">Редактировать</div>
     <input type="hidden" id="eId">
     <label class="form-label">Фото</label>
-    <div class="photo-upload-area">
-      <input type="file" accept="image/*" onchange="uploadPhoto(this,'ePhoto','ePreview','eUploading')">
-      📷 Сменить фото
-    </div>
+    <div class="photo-btns"><label class="photo-btn">📷 Снять<input type="file" accept="image/*" capture="environment" onchange="uploadPhoto(this,'ePhoto','ePreview','eUploading')"></label><label class="photo-btn">🖼 Из галереи<input type="file" accept="image/*" onchange="uploadPhoto(this,'ePhoto','ePreview','eUploading')"></label></div><button type="button" class="photo-clear" onclick="clearPhoto('ePhoto','ePreview')">✕ Убрать фото</button>
     <img class="photo-preview" id="ePreview">
     <div class="photo-uploading" id="eUploading">⏳ Загружаем...</div>
     <input class="form-input" type="url" id="ePhotoUrl" placeholder="https://..." style="margin-top:8px" oninput="syncPhoto('ePhotoUrl','ePhoto','ePreview')">
@@ -787,10 +771,8 @@ body {
     <input class="form-input" type="text" id="eName">
     <label class="form-label">Категория</label>
     <select class="form-select" id="eCategory" onchange="fillSubcatSelect('eCategory','eSubcategory')"></select>
-    <label class="form-label">Подкатегория / Производитель</label>
-    <select class="form-select" id="eSubcategory" onchange="fillSubsubSelect('eCategory','eSubcategory','eSubsub')"><option value="">— Нет —</option></select>
-    <label class="form-label">Линейка (подподкатегория)</label>
-    <select class="form-select" id="eSubsub"><option value="">— Нет —</option></select>
+    <label class="form-label">Подкатегория</label>
+    <select class="form-select" id="eSubcategory"><option value="">— Нет —</option></select>
     <label class="form-label">Описание</label>
     <textarea class="form-input" id="eDesc" rows="3"></textarea>
     <div class="form-row" style="margin-top:14px">
@@ -811,11 +793,10 @@ body {
 // ══════════════════════════════════
 // CONFIG
 // ══════════════════════════════════
-const API_URL   = 'https://script.google.com/macros/s/AKfycbxRQxkvq0lL3Sb16YzYz7OaKYTHXTkmGlwD9wMyMYwLFpuCCMpTs09Uje-7sy3EiQ7O/exec';
+const API_URL   = 'https://script.google.com/macros/s/AKfycbwcpVGp1ePaBcOoUVw9nbdWbaQJ5m2O-95OMML7V17KS3VoChm5JknBW4oZ4jRc_lUE/exec';
 // IMGBB ключ не хранится в коде — загрузка идёт через бэкенд
-const IMGBB_KEY = 'dc580b73a80b7d242eb613aeebade1e1';
-const ADMIN_IDS  = [1016541789];
-const ADMIN_SECRET = 'bulavka_secret_2026'; // должен совпадать с бэкендом
+const IMGBB_KEY = '';
+const ADMIN_IDS = [1016541789];
 
 // ══ ADMIN FETCH — прикладывает initData к каждому админскому запросу ══
 function getInitData() {
@@ -826,15 +807,11 @@ async function adminFetch(payload) {
   const userId   = tg?.initDataUnsafe?.user?.id || '';
   const res = await fetch(API_URL, {
     method: 'POST',
-    redirect: 'follow',
-    body: JSON.stringify({ ...payload, initData, userId, secret: ADMIN_SECRET })
+    body: JSON.stringify({ ...payload, initData, userId })
   });
-  const data = await res.json();
-  // Forbidden только если реально открыто в TG и userId не совпадает
-  if (data.error === 'Forbidden') {
-    showToast('Нет прав доступа', 'error');
-    throw new Error('Нет доступа');
-  }
+  let data;
+  try { data = await res.json(); } catch(e) { throw new Error('сервер не ответил — переопубликуй скрипт (новая версия)'); }
+  if (data.error === 'Forbidden') throw new Error('Нет доступа');
   if (data.error) throw new Error(data.error);
   return data;
 }
@@ -879,52 +856,9 @@ if (tg) { tg.ready(); tg.expand(); }
 let isAdmin = false;
 function checkAdmin() {
   const uid = tg?.initDataUnsafe?.user?.id;
-  isAdmin = !uid || ADMIN_IDS.includes(Number(uid));
+  isAdmin = !!uid && ADMIN_IDS.includes(Number(uid));
   if (isAdmin) document.getElementById('adminOpenBtn').style.display = 'flex';
 }
-
-// ══ CATEGORIES ══
-const DEFAULT_CATS = [
-  { id:'liquid',    emoji:'🧪', name:'Жидкости',
-    subcats:[
-      { name:'Elf Bar',   photo:'', subsubs:['Elf Bar 4000','Elf Bar 5000','Lost Mary'] },
-      { name:'ELFLIQ',    photo:'', subsubs:[] },
-      { name:'Vaporesso', photo:'', subsubs:[] },
-      { name:'Другое',    photo:'', subsubs:[] },
-    ], photo:'' },
-  { id:'disposable',emoji:'🚬', name:'Одноразки',    subcats:[], photo:'' },
-  { id:'pod',       emoji:'💨', name:'Pod-системы',  subcats:[], photo:'' },
-  { id:'snuse',     emoji:'🟢', name:'Снюс',
-    subcats:[
-      { name:'Killa',     photo:'', subsubs:[] },
-      { name:'White Fox', photo:'', subsubs:[] },
-      { name:"Oden's",    photo:'', subsubs:[] },
-      { name:'Другое',    photo:'', subsubs:[] },
-    ], photo:'' },
-  { id:'parts',     emoji:'🔧', name:'Расходники',   subcats:[], photo:'' },
-];
-
-function loadCats() {
-  try {
-    const s = localStorage.getItem('bv_cats_v4');
-    if (s) return JSON.parse(s);
-    // migrate from v3
-    const old = localStorage.getItem('bv_cats_v3');
-    if (old) {
-      const cats = JSON.parse(old);
-      return cats.map(c => ({
-        ...c,
-        subcats: (c.subcats||[]).map(sub =>
-          typeof sub === 'string'
-            ? { name: sub, photo: '', subsubs: [] }
-            : { subsubs: [], ...sub }
-        )
-      }));
-    }
-  } catch(e){}
-  return DEFAULT_CATS.map(c => JSON.parse(JSON.stringify(c)));
-}
-function saveCats() { localStorage.setItem('bv_cats_v4', JSON.stringify(categories)); }
 
 // ══ STATE ══
 let allProducts = [];
@@ -933,7 +867,24 @@ let cart        = {};            // { productId: qty }
 let screenStack = ['screenCatalog'];
 let currentCatId   = null;
 let currentSubcat  = null;
-let currentSubsub  = null;
+
+// ══ CATEGORIES ══
+const DEFAULT_CATS = [
+  { id:'liquid',    emoji:'🧪', name:'Жидкости',   subcats:['Elf Bar','ELFLIQ','Vaporesso','Другое'] },
+  { id:'disposable',emoji:'🚬', name:'Одноразки',   subcats:[] },
+  { id:'pod',       emoji:'💨', name:'Pod-системы', subcats:[] },
+  { id:'snuse',     emoji:'🟢', name:'Снюс',        subcats:["Killa","White Fox","Oden's","Другое"] },
+  { id:'parts',     emoji:'🔧', name:'Расходники',  subcats:[] },
+];
+
+function loadCats() {
+  try { const s = localStorage.getItem('bv_cats_v3'); if (s) return JSON.parse(s); } catch(e){}
+  return DEFAULT_CATS.map(c => ({...c}));
+}
+function saveCats() {
+  localStorage.setItem('bv_cats_v3', JSON.stringify(categories));
+  if (isAdmin) adminFetch({ action:'saveCategories', categories }).catch(e => showToast('Категории не сохранились: ' + e.message, 'error'));
+}
 
 // ══ CART ══
 function cartCount() { return Object.values(cart).reduce((a,b)=>a+b,0); }
@@ -989,13 +940,13 @@ function navTo(id) {
   showScreen(id);
 }
 function updateNavBtns(activeScreen) {
-  document.getElementById('navCatalog').classList.toggle('active', ['screenCatalog','screenSubcat','screenSubsub','screenProducts'].includes(activeScreen));
+  document.getElementById('navCatalog').classList.toggle('active', activeScreen === 'screenCatalog' || activeScreen === 'screenSubcat' || activeScreen === 'screenProducts');
   document.getElementById('navCart').classList.toggle('active', activeScreen === 'screenCart');
 }
 
 // ══ LOAD PRODUCTS ══
 const CACHE_KEY = 'bv_products_cache';
-const CACHE_TTL = 0; // всегда свежие данные
+const CACHE_TTL = 5 * 60 * 1000; // 5 минут
 
 function sanitizeProducts(raw) {
   return (raw || []).map(p => ({
@@ -1035,19 +986,14 @@ async function fetchAndCache(showLoading) {
       '<div class="loading"><div class="spinner"></div><span style="font-size:13px;color:var(--muted)">Загружаем каталог...</span></div>';
   }
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000); // 12 сек таймаут
-    const res  = await fetch(`${API_URL}?action=getProducts`, { signal: controller.signal, redirect: 'follow' });
-    clearTimeout(timeout);
+    const res  = await fetch(`${API_URL}?action=getProducts`);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     allProducts = sanitizeProducts(data.products);
+    if (Array.isArray(data.categories) && data.categories.length) { categories = data.categories; localStorage.setItem('bv_cats_v3', JSON.stringify(categories)); }
     localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: allProducts }));
   } catch(e) {
-    allProducts = allProducts.length ? allProducts : [];
-    document.getElementById('catListEl').innerHTML =
-      '<div class="empty"><div class="empty-icon">⚠️</div><p>Не удалось загрузить</p><small style="color:var(--muted);font-size:12px;margin-top:6px;display:block">' + e.message + '</small><button onclick="loadProducts()" style="margin-top:14px;background:var(--accent);color:white;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:800;cursor:pointer">🔄 Повторить</button></div>';
-    return;
+    if (!allProducts.length) allProducts = [];
   }
   renderCatList();
 }
@@ -1059,7 +1005,7 @@ function renderCatList() {
     const count = allProducts.filter(p => p.category === c.id && p.available).length;
     return `
     <div class="cat-card" onclick="openCategory('${esc(c.id)}')">
-      <div class="cat-card-img">${c.photo ? `<img src="${esc(c.photo)}" onerror="this.parentNode.innerHTML='📦'">` : esc(c.emoji||'📦')}</div>
+      <div class="cat-card-img">${esc(c.emoji)}</div>
       <div class="cat-card-info">
         <div class="cat-card-name">${esc(c.name)}</div>
         <div class="cat-card-count">${count} товаров</div>
@@ -1072,87 +1018,45 @@ function renderCatList() {
 
 function openCategory(catId) {
   currentCatId = catId;
-  currentSubcat = null; currentSubsub = null;
   const cat = categories.find(c => c.id === catId);
   if (!cat) return;
-  document.getElementById('subcatTitle').textContent = `${cat.emoji||''} ${cat.name}`;
+  document.getElementById('subcatTitle').textContent = `${cat.emoji} ${cat.name}`;
 
+  // If no subcats — go straight to products
   if (!cat.subcats || cat.subcats.length === 0) {
-    showProductsFor(catId, null, null, cat.name);
+    currentSubcat = null;
+    showProductsFor(catId, null, cat.name);
     return;
   }
 
+  // Show subcat screen
   const el = document.getElementById('subcatListEl');
   const allCount = allProducts.filter(p => p.category === catId && p.available).length;
   el.innerHTML = `
-    <div class="subcat-card subcat-all" onclick="showProductsFor('${esc(catId)}',null,null,'${esc(cat.name)}')">
+    <div class="subcat-card subcat-all" onclick="showProductsFor('${esc(catId)}', null, '${esc(cat.name)}')">
       <div class="subcat-card-dot" style="background:var(--accent2)"></div>
       <div class="subcat-card-name">Все ${esc(cat.name)}</div>
       <div class="subcat-card-count">${allCount}</div>
       <div class="subcat-card-arrow">›</div>
     </div>` +
-    cat.subcats.map(sub => {
-      const s = typeof sub === 'string' ? sub : sub.name;
-      const sPhoto = typeof sub === 'object' ? sub.photo : '';
-      const hasSubsubs = typeof sub === 'object' && sub.subsubs && sub.subsubs.length > 0;
+    cat.subcats.map(s => {
       const cnt = allProducts.filter(p => p.category===catId && p.subcategory===s && p.available).length;
-      const onclick = hasSubsubs
-        ? `openSubcat('${esc(catId)}','${esc(s)}')`
-        : `showProductsFor('${esc(catId)}','${esc(s)}',null,'${esc(s)}')`;
       return `
-      <div class="subcat-card" onclick="${onclick}">
-        ${sPhoto
-          ? `<div style="width:52px;height:52px;border-radius:10px;overflow:hidden;flex-shrink:0"><img src="${esc(sPhoto)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='📦'"></div>`
-          : `<div class="subcat-card-dot"></div>`}
+      <div class="subcat-card" onclick="showProductsFor('${esc(catId)}','${esc(s)}','${esc(s)}')">
+        <div class="subcat-card-dot"></div>
         <div class="subcat-card-name">${esc(s)}</div>
-        <div class="subcat-card-count">${cnt}${hasSubsubs ? ' · '+sub.subsubs.length+' линеек' : ''}</div>
+        <div class="subcat-card-count">${cnt}</div>
         <div class="subcat-card-arrow">›</div>
       </div>`;
     }).join('');
   showScreen('screenSubcat');
 }
 
-function openSubcat(catId, subcatName) {
-  currentSubcat = subcatName;
-  currentSubsub = null;
-  const cat = categories.find(c => c.id === catId);
-  const sub = cat?.subcats?.find(s => (typeof s==='string'?s:s.name) === subcatName);
-  document.getElementById('subsubTitle').textContent = esc(subcatName);
-
-  const subsubs = typeof sub === 'object' ? (sub.subsubs || []) : [];
-  const el = document.getElementById('subsubListEl');
-  const allCount = allProducts.filter(p => p.category===catId && p.subcategory===subcatName && p.available).length;
-  el.innerHTML = `
-    <div class="subcat-card subcat-all" onclick="showProductsFor('${esc(catId)}','${esc(subcatName)}',null,'${esc(subcatName)}')">
-      <div class="subcat-card-dot" style="background:var(--accent2)"></div>
-      <div class="subcat-card-name">Все ${esc(subcatName)}</div>
-      <div class="subcat-card-count">${allCount}</div>
-      <div class="subcat-card-arrow">›</div>
-    </div>` +
-    subsubs.map(ss => {
-      const ssName = typeof ss === 'string' ? ss : ss.name;
-      const ssPhoto = typeof ss === 'object' ? ss.photo : '';
-      const cnt = allProducts.filter(p => p.category===catId && p.subcategory===subcatName && p.subsubcategory===ssName && p.available).length;
-      return `
-      <div class="subcat-card" onclick="showProductsFor('${esc(catId)}','${esc(subcatName)}','${esc(ssName)}','${esc(ssName)}')">
-        ${ssPhoto
-          ? `<div style="width:36px;height:36px;border-radius:8px;overflow:hidden;flex-shrink:0"><img src="${esc(ssPhoto)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='📦'"></div>`
-          : `<div class="subcat-card-dot"></div>`}
-        <div class="subcat-card-name">${esc(ssName)}</div>
-        <div class="subcat-card-count">${cnt}</div>
-        <div class="subcat-card-arrow">›</div>
-      </div>`;
-    }).join('');
-  showScreen('screenSubsub');
-}
-
-function showProductsFor(catId, subcat, subsub, label) {
+function showProductsFor(catId, subcat, label) {
   currentSubcat = subcat;
-  currentSubsub = subsub;
-  document.getElementById('productsTitle').textContent = label || subcat || catId;
+  document.getElementById('productsTitle').textContent = label;
   let filtered = allProducts.filter(p => p.category === catId);
-  if (subcat)  filtered = filtered.filter(p => p.subcategory === subcat);
-  if (subsub)  filtered = filtered.filter(p => p.subsubcategory === subsub);
+  if (subcat) filtered = filtered.filter(p => p.subcategory === subcat);
   renderProductsGrid(filtered);
   showScreen('screenProducts');
 }
@@ -1378,7 +1282,9 @@ async function submitOrder() {
   };
 
   try {
-    await fetch(API_URL, { method:'POST', body: JSON.stringify(payload) });
+    const r = await fetch(API_URL, { method:'POST', body: JSON.stringify(payload) });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
     cart = {};
     updateCartBadge();
     closeOrder();
@@ -1386,7 +1292,7 @@ async function submitOrder() {
     showToast('Заказ отправлен! Ждите звонка ✓', 'success');
     navTo('screenCatalog');
   } catch(e) {
-    showToast('Ошибка отправки', 'error');
+    showToast('Ошибка отправки: ' + e.message, 'error');
   }
 }
 
@@ -1398,7 +1304,6 @@ function openAdmin() {
 }
 function closeAdmin() {
   document.getElementById('adminOverlay').classList.remove('open');
-  localStorage.removeItem(CACHE_KEY);
   loadProducts();
 }
 function adminTab(tab, btn) {
@@ -1412,71 +1317,73 @@ function adminTab(tab, btn) {
 }
 
 function fillCatSelects() {
-  const opts = categories.map(c=>`<option value="${esc(c.id)}">${c.photo?'🖼':esc(c.emoji||'📦')} ${esc(c.name)}</option>`).join('');
+  const opts = categories.map(c=>`<option value="${esc(c.id)}">${esc(c.emoji)} ${esc(c.name)}</option>`).join('');
   ['aCategory','eCategory'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = opts;
   });
   fillSubcatSelect('aCategory','aSubcategory');
   fillSubcatSelect('eCategory','eSubcategory');
-  const aSubsub = document.getElementById('aSubsub');
-  const eSubsub = document.getElementById('eSubsub');
-  if (aSubsub) aSubsub.innerHTML = '<option value="">— Нет —</option>';
-  if (eSubsub) eSubsub.innerHTML = '<option value="">— Нет —</option>';
 }
 function fillSubcatSelect(catId, subcatId) {
+  const sel = document.getElementById(document.getElementById(catId).value);
   const catVal = document.getElementById(catId).value;
   const cat = categories.find(c=>c.id===catVal);
   const sub = document.getElementById(subcatId);
   if (!sub) return;
-  const subcats = (cat?.subcats||[]).map(s=>typeof s==='string'?s:s.name);
   sub.innerHTML = '<option value="">— Нет —</option>' +
-    subcats.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+    (cat?.subcats||[]).map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
 }
 
-function fillSubsubSelect(catId, subcatId, subsubId) {
-  fillSubcatSelect(catId, subcatId);
-  const catVal    = document.getElementById(catId).value;
-  const subcatVal = document.getElementById(subcatId).value;
-  const cat = categories.find(c=>c.id===catVal);
-  const sub = (cat?.subcats||[]).find(s=>(typeof s==='string'?s:s.name)===subcatVal);
-  const el  = document.getElementById(subsubId);
-  if (!el) return;
-  const subsubs = (typeof sub==='object' ? sub.subsubs||[] : []).map(ss=>typeof ss==='string'?ss:ss.name);
-  el.innerHTML = '<option value="">— Нет —</option>' +
-    subsubs.map(ss=>`<option value="${esc(ss)}">${esc(ss)}</option>`).join('');
+// PHOTO UPLOAD — сжатие на телефоне, поэтому любое фото грузится за пару секунд
+let uploadsBusy = 0;
+async function compressImage(file, maxSide=1280, q=0.82) {
+  let src, w, h;
+  try { src = await createImageBitmap(file, { imageOrientation: 'from-image' }); w = src.width; h = src.height; }
+  catch(e) {
+    src = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('не удалось прочитать фото')); i.src = URL.createObjectURL(file); });
+    w = src.naturalWidth; h = src.naturalHeight;
+  }
+  const k = Math.min(1, maxSide / Math.max(w, h));
+  const c = document.createElement('canvas');
+  c.width = Math.round(w*k); c.height = Math.round(h*k);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+  ctx.drawImage(src, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', q).split(',')[1];
 }
-
-// PHOTO UPLOAD
 async function uploadPhoto(input, photoId, previewId, uploadingId) {
   const file = input.files[0];
+  input.value = '';
   if (!file) return;
-  if (file.size > 5*1024*1024) { showToast('Файл слишком большой (макс 5 МБ)', 'error'); return; }
-  if (!file.type.startsWith('image/')) { showToast('Только изображения', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const pr = document.getElementById(previewId);
-    pr.src = e.target.result; pr.classList.add('show');
-  };
-  reader.readAsDataURL(file);
-  document.getElementById(uploadingId).classList.add('show');
+  const pr = document.getElementById(previewId), up = document.getElementById(uploadingId);
+  const hid = document.getElementById(photoId), prev = hid.value;
+  pr.src = URL.createObjectURL(file); pr.classList.add('show');
+  up.classList.add('show'); up.textContent = '⏳ Подготавливаю фото...';
+  uploadsBusy++;
   try {
-    // Конвертируем в base64 и шлём через бэкенд — ключ imgbb не светится в коде
-    const base64 = await new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload  = () => res(r.result.split(',')[1]);
-      r.onerror = () => rej(new Error('read error'));
-      r.readAsDataURL(file);
-    });
-    const data = await adminFetch({ action:'uploadPhoto', image: base64, mimeType: file.type });
-    if (data.url) {
-      document.getElementById(photoId).value = data.url;
-      const pr = document.getElementById(previewId);
-      pr.src = data.url; pr.classList.add('show');
-      showToast('Фото загружено ✓', 'success');
-    } else { showToast('Ошибка загрузки фото', 'error'); }
-  } catch(e) { showToast('Ошибка загрузки: ' + e.message, 'error'); }
-  finally { document.getElementById(uploadingId).classList.remove('show'); }
+    const base64 = await compressImage(file);
+    let data;
+    for (let i = 1; i <= 2; i++) {
+      up.textContent = i === 1 ? '⏳ Загружаю...' : '⏳ Повторяю...';
+      try { data = await adminFetch({ action:'uploadPhoto', image: base64, mimeType:'image/jpeg' }); break; }
+      catch(e) { if (i === 2 || e.message === 'Нет доступа') throw e; }
+    }
+    if (!data || !data.url) throw new Error('нет ссылки на фото');
+    hid.value = data.url;
+    document.getElementById(photoId + 'Url').value = data.url;
+    pr.src = data.url;
+    showToast('Фото загружено ✓', 'success');
+    tg?.HapticFeedback?.notificationOccurred('success');
+  } catch(e) {
+    if (prev) pr.src = prev; else pr.classList.remove('show');
+    showToast('Ошибка фото: ' + e.message, 'error');
+  } finally { uploadsBusy--; up.classList.remove('show'); }
+}
+function clearPhoto(photoId, previewId) {
+  document.getElementById(photoId).value = '';
+  document.getElementById(photoId + 'Url').value = '';
+  document.getElementById(previewId).classList.remove('show');
 }
 function syncPhoto(urlId, photoId, previewId) {
   const url = safeUrl(document.getElementById(urlId).value.trim());
@@ -1488,27 +1395,26 @@ function syncPhoto(urlId, photoId, previewId) {
 
 // ADD PRODUCT
 async function doAdd() {
-  if (window.photoUploading) { showToast('Подожди — фото ещё загружается...','error'); return; }
+  if (uploadsBusy) { showToast('Подожди, фото ещё загружается', 'error'); return; }
   const name  = document.getElementById('aName').value.trim().slice(0,200);
   const price = safePrice(document.getElementById('aPrice').value);
   if (!name || !price) { showToast('Заполни название и цену', 'error'); return; }
   const payload = {
     action: 'addProduct',
     name, price,
-    category:       document.getElementById('aCategory').value,
-    subcategory:    document.getElementById('aSubcategory').value,
-    subsubcategory: document.getElementById('aSubsub').value,
-    description:    document.getElementById('aDesc').value.trim().slice(0,1000),
-    discount:       Math.min(99, safeNum(document.getElementById('aDiscount').value)),
-    strength:       safeNum(document.getElementById('aStrength').value),
-    volume:         safeNum(document.getElementById('aVolume').value),
-    photo:          safeUrl(document.getElementById('aPhoto').value.trim()),
+    category:    document.getElementById('aCategory').value,
+    subcategory: document.getElementById('aSubcategory').value,
+    description: document.getElementById('aDesc').value.trim().slice(0,1000),
+    discount:    Math.min(99, safeNum(document.getElementById('aDiscount').value)),
+    strength:    safeNum(document.getElementById('aStrength').value),
+    volume:      safeNum(document.getElementById('aVolume').value),
+    photo:       safeUrl(document.getElementById('aPhoto').value.trim()),
   };
   try {
     await adminFetch(payload);
     localStorage.removeItem(CACHE_KEY);
     showToast('Товар добавлен ✓', 'success');
-    ['aName','aDesc','aPrice','aDiscount','aStrength','aVolume','aPhoto','aPhotoUrl','aSubsub'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+    ['aName','aDesc','aPrice','aDiscount','aStrength','aVolume','aPhoto','aPhotoUrl'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
     document.getElementById('aPreview').classList.remove('show');
   } catch(e) { showToast('Ошибка: '+e.message, 'error'); }
 }
@@ -1570,8 +1476,6 @@ function openEdit(id) {
   document.getElementById('eCategory').value = p.category;
   fillSubcatSelect('eCategory','eSubcategory');
   document.getElementById('eSubcategory').value = p.subcategory||'';
-  fillSubsubSelect('eCategory','eSubcategory','eSubsub');
-  document.getElementById('eSubsub').value = p.subsubcategory||'';
   document.getElementById('eDesc').value     = p.description||'';
   document.getElementById('ePrice').value    = p.price;
   document.getElementById('eDiscount').value = p.discount||0;
@@ -1583,32 +1487,23 @@ function openEdit(id) {
   if (p.photo) { pr.src=p.photo; pr.classList.add('show'); } else { pr.classList.remove('show'); }
   document.getElementById('editOverlay').classList.add('open');
 }
-function closeEdit() { document.getElementById('editOverlay').classList.remove('open'); localStorage.removeItem(CACHE_KEY); }
+function closeEdit() { document.getElementById('editOverlay').classList.remove('open'); }
 async function doUpdate() {
-  if (window.photoUploading) { showToast('Подожди — фото ещё загружается...','error'); return; }
+  if (uploadsBusy) { showToast('Подожди, фото ещё загружается', 'error'); return; }
   const id    = document.getElementById('eId').value;
   const name  = document.getElementById('eName').value.trim().slice(0,200);
   const price = safePrice(document.getElementById('ePrice').value);
   if (!name||!price) { showToast('Заполни название и цену','error'); return; }
-  const photoVal = document.getElementById('ePhoto') ? document.getElementById('ePhoto').value.trim() : '';
-  const photoUrlVal = document.getElementById('ePhotoUrl') ? document.getElementById('ePhotoUrl').value.trim() : '';
-  const finalPhoto = safeUrl(photoVal) || safeUrl(photoUrlVal);
-  console.log('ePhoto value:', photoVal);
-  console.log('ePhotoUrl value:', photoUrlVal);
-  console.log('finalPhoto:', finalPhoto);
-
   const payload = {
     action:'updateProduct', id, name, price,
-    category:       document.getElementById('eCategory').value,
-    subcategory:    document.getElementById('eSubcategory').value,
-    subsubcategory: document.getElementById('eSubsub') ? document.getElementById('eSubsub').value : '',
-    description:    document.getElementById('eDesc').value.trim().slice(0,1000),
-    discount:       Math.min(99,safeNum(document.getElementById('eDiscount').value)),
-    strength:       safeNum(document.getElementById('eStrength').value),
-    volume:         safeNum(document.getElementById('eVolume').value),
-    photo:          finalPhoto,
+    category:    document.getElementById('eCategory').value,
+    subcategory: document.getElementById('eSubcategory').value,
+    description: document.getElementById('eDesc').value.trim().slice(0,1000),
+    discount:    Math.min(99,safeNum(document.getElementById('eDiscount').value)),
+    strength:    safeNum(document.getElementById('eStrength').value),
+    volume:      safeNum(document.getElementById('eVolume').value),
+    photo:       safeUrl(document.getElementById('ePhoto').value.trim()),
   };
-  console.log('payload photo:', payload.photo);
   try {
     await adminFetch(payload);
     localStorage.removeItem(CACHE_KEY);
@@ -1624,51 +1519,19 @@ function renderCatEditor() {
   el.innerHTML = categories.map(c=>`
     <div class="cat-editor-item">
       <div class="cat-editor-header">
-        <div onclick="triggerCatPhoto('${esc(c.id)}')" style="width:44px;height:44px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1.5px dashed var(--border2);">
-          ${c.photo ? `<img src="${esc(c.photo)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='📦'">` : esc(c.emoji||'📦')}
-        </div>
-        <input type="file" accept="image/*" id="cphoto_${esc(c.id)}" style="display:none" onchange="uploadCatPhoto('${esc(c.id)}',this)">
+        <div class="cat-editor-emoji">${esc(c.emoji)}</div>
         <div class="cat-editor-name">${esc(c.name)}</div>
-        <button class="cat-toggle-btn" onclick="toggleSubcats('se_${esc(c.id)}')">▾</button>
+        <button class="cat-toggle-btn" onclick="toggleSubcats('se_${esc(c.id)}')">Подкат. ▾</button>
         <button class="cat-del-btn" onclick="delCat('${esc(c.id)}')">✕</button>
       </div>
       <div class="subcat-expand" id="se_${esc(c.id)}">
-        ${(c.subcats||[]).map((sub,si)=>{
-          const sName = typeof sub==='string'?sub:sub.name;
-          const sPhoto = typeof sub==='object'?sub.photo:'';
-          const subsubs = typeof sub==='object'?(sub.subsubs||[]):[];
-          return `
-          <div style="background:var(--surface2);border-radius:10px;padding:10px;margin-bottom:8px;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-              <div onclick="triggerSubcatPhoto('${esc(c.id)}',${si})" style="width:36px;height:36px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1px dashed var(--border2);">
-                ${sPhoto?`<img src="${esc(sPhoto)}" style="width:100%;height:100%;object-fit:cover">`:'📦'}
-              </div>
-              <input type="file" accept="image/*" id="sphoto_${esc(c.id)}_${si}" style="display:none" onchange="uploadSubcatPhoto('${esc(c.id)}',${si},this)">
-              <div style="flex:1;font-size:13px;font-weight:800;color:var(--text)">${esc(sName)}</div>
-              <button class="subcat-row-del" onclick="delSubcat('${esc(c.id)}','${esc(sName)}')">✕</button>
-            </div>
-            <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px">Линейки:</div>
-            ${subsubs.map((ss,ssi)=>{
-              const ssName=typeof ss==='string'?ss:ss.name;
-              const ssPhoto=typeof ss==='object'?ss.photo:'';
-              return `<div style="display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border);">
-                <div onclick="triggerSubsubPhoto('${esc(c.id)}',${si},${ssi})" style="width:28px;height:28px;border-radius:6px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1px dashed var(--border2);">
-                  ${ssPhoto?`<img src="${esc(ssPhoto)}" style="width:100%;height:100%;object-fit:cover">`:'📷'}
-                </div>
-                <input type="file" accept="image/*" id="ssphoto_${esc(c.id)}_${si}_${ssi}" style="display:none" onchange="uploadSubsubPhoto('${esc(c.id)}',${si},${ssi},this)">
-                <div style="flex:1;font-size:12px;font-weight:700;color:var(--text2)">${esc(ssName)}</div>
-                <button class="subcat-row-del" onclick="delSubsub('${esc(c.id)}',${si},'${esc(ssName)}')">✕</button>
-              </div>`;
-            }).join('')}
-            <div style="display:flex;gap:7px;margin-top:8px;">
-              <input class="form-input" style="flex:1;padding:8px 10px;font-size:12px" id="nss_${esc(c.id)}_${si}" placeholder="Новая линейка...">
-              <button class="add-subcat-btn" onclick="addSubsub('${esc(c.id)}',${si})">＋</button>
-            </div>
-          </div>`;
-        }).join('')}
-        <div style="font-size:11px;color:var(--muted);font-weight:700;margin:8px 0 6px">+ Подкатегория / Бренд</div>
+        ${(c.subcats||[]).map(s=>`
+          <div class="subcat-row">
+            <div class="subcat-row-name">• ${esc(s)}</div>
+            <button class="subcat-row-del" onclick="delSubcat('${esc(c.id)}','${esc(s)}')">✕</button>
+          </div>`).join('')}
         <div class="add-subcat-row">
-          <input class="form-input add-subcat-input" id="ns_${esc(c.id)}" placeholder="Название бренда...">
+          <input class="form-input add-subcat-input" id="ns_${esc(c.id)}" placeholder="Новая подкатегория...">
           <button class="add-subcat-btn" onclick="addSubcat('${esc(c.id)}')">＋</button>
         </div>
       </div>
@@ -1682,108 +1545,25 @@ function addSubcat(catId) {
   const cat = categories.find(c=>c.id===catId);
   if (!cat) return;
   if (!cat.subcats) cat.subcats=[];
-  const exists = cat.subcats.some(s=>(typeof s==='string'?s:s.name)===name);
-  if (!exists) cat.subcats.push({ name, photo:'', subsubs:[] });
-  saveCats(); input.value=''; renderCatEditor(); showToast('Бренд добавлен','success');
+  if (!cat.subcats.includes(name)) cat.subcats.push(name);
+  saveCats(); input.value=''; renderCatEditor(); showToast('Добавлено','success');
 }
 function delSubcat(catId, name) {
   const cat = categories.find(c=>c.id===catId);
   if (!cat) return;
-  cat.subcats = (cat.subcats||[]).filter(s=>(typeof s==='string'?s:s.name)!==name);
+  cat.subcats = (cat.subcats||[]).filter(s=>s!==name);
   saveCats(); renderCatEditor(); showToast('Удалено');
-}
-function addSubsub(catId, si) {
-  const input = document.getElementById(`nss_${catId}_${si}`);
-  const name  = input.value.trim().slice(0,100);
-  if (!name) return;
-  const cat = categories.find(c=>c.id===catId);
-  if (!cat || !cat.subcats[si]) return;
-  const sub = cat.subcats[si];
-  if (!sub.subsubs) sub.subsubs=[];
-  if (!sub.subsubs.some(ss=>(typeof ss==='string'?ss:ss.name)===name))
-    sub.subsubs.push({ name, photo:'' });
-  saveCats(); input.value=''; renderCatEditor(); showToast('Линейка добавлена','success');
-}
-function delSubsub(catId, si, name) {
-  const cat = categories.find(c=>c.id===catId);
-  if (!cat || !cat.subcats[si]) return;
-  cat.subcats[si].subsubs = (cat.subcats[si].subsubs||[]).filter(ss=>(typeof ss==='string'?ss:ss.name)!==name);
-  saveCats(); renderCatEditor(); showToast('Удалено');
-}
-function triggerSubsubPhoto(catId, si, ssi) {
-  document.getElementById(`ssphoto_${catId}_${si}_${ssi}`).click();
-}
-async function uploadSubsubPhoto(catId, si, ssi, input) {
-  const url = await uploadCatPhotoFile(input.files[0]);
-  if (!url) return;
-  const cat = categories.find(c=>c.id===catId);
-  if (!cat?.subcats?.[si]?.subsubs?.[ssi]) return;
-  cat.subcats[si].subsubs[ssi] = { name: typeof cat.subcats[si].subsubs[ssi]==='string'?cat.subcats[si].subsubs[ssi]:cat.subcats[si].subsubs[ssi].name, photo: url };
-  saveCats(); renderCatEditor(); showToast('Фото линейки обновлено ✓','success');
 }
 function addCat() {
+  const emoji = document.getElementById('catEmoji').value.trim()||'📦';
   const name  = document.getElementById('catName').value.trim().slice(0,50);
-  const photo = document.getElementById('newCatPhoto').value.trim();
   if (!name) { showToast('Введи название','error'); return; }
-  categories.push({ id:'c'+Date.now(), emoji:'📦', name, photo, subcats:[], subcatPhotos:{} });
+  categories.push({ id:'c'+Date.now(), emoji, name, subcats:[] });
   saveCats();
+  document.getElementById('catEmoji').value='';
   document.getElementById('catName').value='';
-  document.getElementById('newCatPhoto').value='';
-  document.getElementById('newCatThumb').innerHTML='📷';
   renderCatEditor(); renderCatList(); fillCatSelects();
   showToast('Категория добавлена ✓','success');
-}
-
-async function previewNewCat(input) {
-  const url = await uploadCatPhotoFile(input.files[0]);
-  if (!url) return;
-  document.getElementById('newCatPhoto').value = url;
-  document.getElementById('newCatThumb').innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover">`;
-}
-
-function triggerCatPhoto(catId) {
-  document.getElementById('cphoto_'+catId).click();
-}
-function triggerSubcatPhoto(catId, idx) {
-  document.getElementById(`sphoto_${catId}_${idx}`).click();
-}
-
-async function uploadCatPhoto(catId, input) {
-  const url = await uploadCatPhotoFile(input.files[0]);
-  if (!url) return;
-  const cat = categories.find(c=>c.id===catId);
-  if (!cat) return;
-  cat.photo = url;
-  saveCats(); renderCatEditor(); renderCatList();
-  showToast('Фото категории обновлено ✓','success');
-}
-
-async function uploadSubcatPhoto(catId, si, input) {
-  const url = await uploadCatPhotoFile(input.files[0]);
-  if (!url) return;
-  const cat = categories.find(c=>c.id===catId);
-  if (!cat?.subcats?.[si]) return;
-  cat.subcats[si].photo = url;
-  saveCats(); renderCatEditor();
-  showToast('Фото бренда обновлено ✓','success');
-}
-function triggerSubcatPhoto(catId, si) {
-  document.getElementById(`sphoto_${catId}_${si}`).click();
-}
-
-async function uploadCatPhotoFile(file) {
-  if (!file) return null;
-  if (file.size > 5*1024*1024) { showToast('Макс 5 МБ','error'); return null; }
-  showToast('Загружаем фото...','');
-  try {
-    const fd = new FormData();
-    fd.append('image', file);
-    const res  = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
-      method: 'POST', body: fd
-    });
-    const data = await res.json();
-    return data.success && data.data ? data.data.url : null;
-  } catch(e) { showToast('Ошибка загрузки','error'); return null; }
 }
 function delCat(id) {
   if (!confirm('Удалить категорию?')) return;

@@ -796,7 +796,7 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
     <input class="order-input" type="tel" id="orderPhone" placeholder="+375 29 000-00-00">
     <label class="order-label">Комментарий (необязательно)</label>
     <input class="order-input" type="text" id="orderComment" placeholder="Способ получения, вопрос...">
-    <button class="order-submit" onclick="submitOrder()">Отправить заказ</button>
+    <button class="order-submit" id="orderSubmitBtn" onclick="submitOrder()">Отправить заказ</button>
   </div>
 </div>
 
@@ -1477,7 +1477,11 @@ function showDone(total, pct) {
 function closeDone() { document.getElementById('doneOverlay').classList.remove('open'); }
 function closeOrder() { document.getElementById('orderOverlay').classList.remove('open'); }
 
+let orderBusy = false, lastOrderAt = 0;
 async function submitOrder() {
+  if (orderBusy) return;                                   // запрос уже летит — повторные нажатия игнорируем
+  const waitMs = 60000 - (Date.now() - lastOrderAt);
+  if (waitMs > 0) { showToast('Подождите ' + Math.ceil(waitMs / 1000) + ' сек перед следующим заказом', 'error'); return; }
   const phone = document.getElementById('orderPhone').value.trim();
   if (!phone || phone.length < 7) { showToast('Введи корректный номер телефона', 'error'); return; }
   // Sanitize phone: only digits, +, -, spaces
@@ -1501,10 +1505,14 @@ async function submitOrder() {
     userId: user?.id || ''
   };
 
+  orderBusy = true;
+  const btn = document.getElementById('orderSubmitBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Отправляем...'; btn.style.opacity = '.6'; }
   try {
     const r = await fetch(API_URL, { method:'POST', body: JSON.stringify(payload) });
     const d = await r.json();
     if (d.error) throw new Error(d.error === 'Forbidden' ? 'Открой магазин через бота в Telegram' : d.error);
+    lastOrderAt = Date.now();
     cart = {};
     updateCartBadge();
     closeOrder();
@@ -1514,6 +1522,9 @@ async function submitOrder() {
     navTo('screenCatalog');
   } catch(e) {
     showToast('Ошибка отправки: ' + e.message, 'error');
+  } finally {
+    orderBusy = false;
+    if (btn) { btn.disabled = false; btn.textContent = 'Отправить заказ'; btn.style.opacity = ''; }
   }
 }
 

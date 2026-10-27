@@ -793,7 +793,7 @@ body {
 // ══════════════════════════════════
 // CONFIG
 // ══════════════════════════════════
-const API_URL   = 'https://script.google.com/macros/s/AKfycbwcpVGp1ePaBcOoUVw9nbdWbaQJ5m2O-95OMML7V17KS3VoChm5JknBW4oZ4jRc_lUE/exec';
+const API_URL   = 'https://script.google.com/macros/s/AKfycby13f3Jvunnlh0r3s3Kq2xCKIVKF4Mk1URrRQe77j5vq-iDP_e29DVclaZZjHGwyzDD/exec';
 // IMGBB ключ не хранится в коде — загрузка идёт через бэкенд
 const IMGBB_KEY = '';
 const ADMIN_IDS = [1016541789];
@@ -870,10 +870,11 @@ let currentSubcat  = null;
 
 // ══ CATEGORIES ══
 const DEFAULT_CATS = [
-  { id:'liquid',    emoji:'🧪', name:'Жидкости',   subcats:['Elf Bar','ELFLIQ','Vaporesso','Другое'] },
+  { id:'liquid',    emoji:'🧪', name:'Жидкости',   subcats:['Podonki','OGGO','Elf Bar','ELFLIQ','Vaporesso','Другое'] },
+  { id:'cartridge', emoji:'🔋', name:'Картриджи',   subcats:['Vaporesso','Другое'] },
   { id:'disposable',emoji:'🚬', name:'Одноразки',   subcats:[] },
   { id:'pod',       emoji:'💨', name:'Pod-системы', subcats:[] },
-  { id:'snuse',     emoji:'🟢', name:'Снюс',        subcats:["Killa","White Fox","Oden's","Другое"] },
+  { id:'snuse',     emoji:'🟢', name:'Снюс',        subcats:["Iceberg","Killa","White Fox","Oden's","Другое"] },
   { id:'parts',     emoji:'🔧', name:'Расходники',  subcats:[] },
 ];
 
@@ -955,6 +956,7 @@ function sanitizeProducts(raw) {
     description: String(p.description || '').slice(0, 1000),
     category:    String(p.category || ''),
     subcategory: String(p.subcategory || ''),
+    subsubcategory: String(p.subsubcategory || ''),
     photo:       safeUrl(p.photo),
     price:       safePrice(p.price),
     discount:    Math.min(99, Math.max(0, safeNum(p.discount))),
@@ -1114,7 +1116,8 @@ function onSearch(val) {
     const found = allProducts.filter(p =>
       p.name.toLowerCase().includes(q) ||
       (p.description||'').toLowerCase().includes(q) ||
-      (p.subcategory||'').toLowerCase().includes(q)
+      (p.subcategory||'').toLowerCase().includes(q) ||
+      (p.subsubcategory||'').toLowerCase().includes(q)
     );
     document.getElementById('searchResults').innerHTML =
       found.length ? found.map(p=>productCardHTML(p)).join('') :
@@ -1138,7 +1141,7 @@ function openProduct(id) {
       ${p.discount>0 ? `<div class="modal-img-discount">–${p.discount}%</div>` : ''}
     </div>
     <div class="modal-body">
-      ${cat ? `<div class="modal-cat">${esc(cat.emoji)} ${esc(cat.name)}${p.subcategory ? ' · '+esc(p.subcategory) : ''}</div>` : ''}
+      ${cat ? `<div class="modal-cat">${esc(cat.emoji)} ${esc(cat.name)}${p.subcategory ? ' · '+esc(p.subcategory) : ''}${p.subsubcategory ? ' · '+esc(p.subsubcategory) : ''}</div>` : ''}
       <div class="modal-name">${esc(p.name)}</div>
       <div class="modal-tags">
         ${p.strength ? `<div class="modal-tag accent">${esc(String(p.strength))} мг никотина</div>` : ''}

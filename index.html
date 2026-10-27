@@ -605,7 +605,56 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
 .nav-btn.active{color:#C4B5FD}
 .nav-btn.active .nav-icon{filter:drop-shadow(0 0 8px rgba(139,92,246,.7))}
 .toast{bottom:calc(var(--bottom) + var(--nav-h) + 12px)}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.home-logo-icon{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#8B5CF6,#22D3EE);box-shadow:0 8px 26px rgba(139,92,246,.55),inset 0 1px 0 rgba(255,255,255,.35)}
+.home-logo-icon .ic{width:24px;height:24px;fill:#fff;stroke:none}
+.home-logo-text{font-family:'Unbounded','Segoe UI',sans-serif;font-weight:800;font-size:16px;letter-spacing:.8px;line-height:1.1}
+.home-header{box-shadow:0 1px 0 rgba(139,92,246,.35),0 12px 30px rgba(0,0,0,.35)}
+.icon-btn{width:40px;height:40px;border-radius:13px;color:#E9E5FF}.icon-btn .ic{width:20px;height:20px}
+.search-icon{display:flex;color:#8e8ea8}.search-icon .ic{width:17px;height:17px}
+.bottom-nav{margin:0 12px calc(var(--bottom) + 10px);padding:6px;border-radius:26px;border:1px solid rgba(255,255,255,.1);box-shadow:0 14px 40px rgba(0,0,0,.6)}
+.nav-btn{border-radius:20px;color:#7d7d99;transition:all .2s}
+.nav-btn.active{background:linear-gradient(135deg,rgba(139,92,246,.38),rgba(34,211,238,.16));color:#fff}
+.nav-icon{display:flex}.nav-icon .ic{width:23px;height:23px}
+.qadd{position:absolute;right:8px;bottom:8px;width:36px;height:36px;border:0;border-radius:13px;background:linear-gradient(135deg,#8B5CF6,#6D28D9);color:#fff;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:0 6px 18px rgba(139,92,246,.6)}
+.qadd:active{transform:scale(.86)}.qadd .ic{width:19px;height:19px;stroke-width:2.5}
+.product-img::after{content:"";position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(transparent,rgba(10,10,16,.6));pointer-events:none}
+.empty-icon,.cart-empty-icon{color:#4f4f6b;display:flex;justify-content:center}.empty-icon .ic{width:46px;height:46px}.cart-empty-icon .ic{width:56px;height:56px}
+.cart-item-del{color:var(--red)}.cart-item-del .ic{width:20px;height:20px}
+.prof-tier{letter-spacing:.3px}
+.done-card{padding:30px 20px calc(var(--bottom) + 22px);text-align:center}
+.done-ic{width:80px;height:80px;margin:0 auto 18px;border-radius:50%;background:linear-gradient(135deg,#8B5CF6,#22D3EE);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 38px rgba(139,92,246,.6);animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+.done-ic .ic{width:40px;height:40px;stroke:#fff;stroke-width:2.8}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+.done-title{font-size:24px;font-weight:900;letter-spacing:-.4px}
+.done-text{margin:10px 0 14px;font-size:14px;line-height:1.6;color:var(--text2);font-weight:600}
+.done-sum{margin-bottom:18px;font-size:15px;font-weight:800;color:#C4B5FD}
+.loading{grid-column:1/-1}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips.sub{padding-top:8px}
+.chip{flex-shrink:0;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:var(--text2);border-radius:999px;padding:9px 15px;font-size:13px;font-weight:800;cursor:pointer;transition:all .15s}
+.chip.on{background:linear-gradient(135deg,#8B5CF6,#6D28D9);color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(139,92,246,.4)}
+.chips.sub .chip{padding:6px 12px;font-size:12px}
+.chips.sub .chip.on{background:rgba(139,92,246,.25);color:#C4B5FD;box-shadow:none;border-color:#8B5CF6}
+.ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;color:rgba(196,181,253,.5);background:linear-gradient(135deg,#1d1d2c,#141420)}
+.prof-card{margin:14px 12px 10px;padding:18px;border-radius:22px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(139,92,246,.35),rgba(34,211,238,.12));border:1px solid rgba(255,255,255,.12)}
+.prof-ava{width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg,#8B5CF6,#22D3EE);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900}
+.prof-name{font-size:18px;font-weight:900}.prof-tier{font-size:13px;font-weight:800;color:#C4B5FD;margin-top:3px}
+.prof-disc{margin-left:auto;text-align:center;font-size:28px;font-weight:900}.prof-disc span{display:block;font-size:10px;color:var(--text2);font-weight:700}
+.prof-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 12px 10px}
+.prof-stats div{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:14px;text-align:center}
+.prof-stats b{display:block;font-size:20px;font-weight:900}.prof-stats span{font-size:11px;color:var(--muted);font-weight:700}
+.prof-next{margin:0 12px 10px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--border2);font-size:13px;font-weight:700;color:var(--text2)}
+.prof-next b{color:#C4B5FD}
+.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#8B5CF6,#22D3EE)}
+.prof-lv{margin:0 12px 10px;display:grid;gap:6px;font-size:12px;font-weight:700;color:var(--text2)}
+.prof-lv div{display:flex;justify-content:space-between;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.04)}
+.prof-lv div.on{background:rgba(139,92,246,.2);color:#fff}
+.prof-h{margin:14px 16px 8px;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.prof-ord{margin:0 12px 6px;padding:12px 14px;border-radius:12px;background:var(--surface);display:flex;justify-content:space-between;font-size:13px;font-weight:700}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&text=BULAVKAVPE%20&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -613,20 +662,22 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
 <div class="screen active" id="screenCatalog">
   <div class="home-header">
     <div class="home-logo">
-      <div class="home-logo-icon">💨</div>
-      <div class="home-logo-text">Bulavka <span>Vape</span></div>
+      <div class="home-logo-icon"><svg class="ic " viewBox="0 0 24 24"><path d="M12 2.8c3.4 4.3 6.6 7 6.6 10.7a6.6 6.6 0 0 1-13.2 0C5.4 9.8 8.6 7.1 12 2.8z"/></svg></div>
+      <div class="home-logo-text">BULAVKA <span>VAPE</span></div>
       <div class="home-logo-right">
-        <div class="icon-btn" id="adminOpenBtn" onclick="openAdmin()" style="display:none">⚙️</div>
+        <div class="icon-btn" id="adminOpenBtn" onclick="openAdmin()" style="display:none"><svg class="ic " viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.4"/><circle cx="8" cy="17" r="2.4"/></svg></div>
         <div class="icon-btn" onclick="showScreen('screenCart')">
-          🛒
+          <svg class="ic " viewBox="0 0 24 24"><path d="M5.5 8h13l-1.1 12.2a1 1 0 0 1-1 .8H7.6a1 1 0 0 1-1-.8L5.5 8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
           <div class="badge" id="cartBadge" style="display:none">0</div>
         </div>
       </div>
     </div>
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
+      <span class="search-icon"><svg class="ic " viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></span>
       <input class="search-input" id="searchInput" type="text" placeholder="Поиск товаров..." oninput="onSearch(this.value)">
     </div>
+    <div class="chips" id="catChips"></div>
+    <div class="chips sub" id="subChips"></div>
   </div>
 
   <!-- search results -->
@@ -636,7 +687,7 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
 
   <!-- category list -->
   <div class="scroll-area" id="catListArea">
-    <div class="cat-list" id="catListEl">
+    <div class="products-grid" id="catListEl">
       <div class="loading"><div class="spinner"></div></div>
     </div>
   </div>
@@ -660,7 +711,7 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
     <div class="topbar-title" id="productsTitle">Товары</div>
     <div class="topbar-right">
       <div class="icon-btn" onclick="showScreen('screenCart')">
-        🛒
+          <svg class="ic " viewBox="0 0 24 24"><path d="M5.5 8h13l-1.1 12.2a1 1 0 0 1-1 .8H7.6a1 1 0 0 1-1-.8L5.5 8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
         <div class="badge" id="cartBadge2" style="display:none">0</div>
       </div>
     </div>
@@ -674,22 +725,43 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
 <div class="screen" id="screenCart">
   <div class="topbar">
     <div class="topbar-back" onclick="goBack()">←</div>
-    <div class="topbar-title">🛒 Корзина</div>
+    <div class="topbar-title">Корзина</div>
   </div>
   <div class="scroll-area" id="cartScroll">
     <div id="cartContent"></div>
   </div>
 </div>
 
+<!-- ══════════ SCREEN: PROFILE ══════════ -->
+<div class="screen" id="screenProfile">
+  <div class="topbar"><div class="topbar-title">Личный кабинет</div></div>
+  <div class="scroll-area"><div id="profileContent"></div></div>
+</div>
+
+<!-- ══════════ ORDER DONE ══════════ -->
+<div class="modal-overlay" id="doneOverlay" onclick="if(event.target===this)closeDone()">
+  <div class="modal done-card">
+    <div class="done-ic"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <div class="done-title">Заказ оформлен!</div>
+    <div class="done-text">Менеджер скоро напишет вам в Telegram.<br>Оставайтесь на связи.</div>
+    <div class="done-sum" id="doneSum"></div>
+    <button class="cart-checkout-btn" onclick="closeDone()">Отлично</button>
+  </div>
+</div>
+
 <!-- ══════════ BOTTOM NAV ══════════ -->
 <div class="bottom-nav">
   <button class="nav-btn active" id="navCatalog" onclick="navTo('screenCatalog')">
-    <div class="nav-icon">🏪</div>
+    <div class="nav-icon"><svg class="ic " viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2.2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2"/></svg></div>
     <div class="nav-label">Каталог</div>
   </button>
   <button class="nav-btn" id="navCart" onclick="navTo('screenCart')">
-    <div class="nav-icon">🛒<div class="badge" id="cartBadgeNav" style="display:none">0</div></div>
+    <div class="nav-icon"><svg class="ic " viewBox="0 0 24 24"><path d="M5.5 8h13l-1.1 12.2a1 1 0 0 1-1 .8H7.6a1 1 0 0 1-1-.8L5.5 8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><div class="badge" id="cartBadgeNav" style="display:none">0</div></div>
     <div class="nav-label">Корзина</div>
+  </button>
+  <button class="nav-btn" id="navProfile" onclick="navTo('screenProfile');renderProfile();loadProfile()">
+    <div class="nav-icon"><svg class="ic " viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.6-3.8 3.7-6 7.5-6s6.9 2.2 7.5 6"/></svg></div>
+    <div class="nav-label">Кабинет</div>
   </button>
 </div>
 
@@ -705,14 +777,14 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
 <div class="order-overlay" id="orderOverlay" onclick="if(event.target===this)closeOrder()">
   <div class="order-modal">
     <button class="order-close" onclick="closeOrder()">✕</button>
-    <div class="order-title">📦 Оформление заказа</div>
+    <div class="order-title">Оформление заказа</div>
     <div class="order-subtitle">Введи номер телефона — мы свяжемся для подтверждения</div>
     <div class="order-items-preview" id="orderItemsPreview"></div>
-    <label class="order-label">📱 Номер телефона</label>
+    <label class="order-label">Номер телефона</label>
     <input class="order-input" type="tel" id="orderPhone" placeholder="+375 29 000-00-00">
-    <label class="order-label">💬 Комментарий (необязательно)</label>
+    <label class="order-label">Комментарий (необязательно)</label>
     <input class="order-input" type="text" id="orderComment" placeholder="Способ получения, вопрос...">
-    <button class="order-submit" onclick="submitOrder()">✅ Отправить заказ</button>
+    <button class="order-submit" onclick="submitOrder()">Отправить заказ</button>
   </div>
 </div>
 
@@ -902,6 +974,8 @@ function checkAdmin() {
 }
 
 // ══ STATE ══
+const IC = {"plus": "<svg class=\"ic \" viewBox=\"0 0 24 24\"><path d=\"M12 5v14M5 12h14\"/></svg>", "trash": "<svg class=\"ic \" viewBox=\"0 0 24 24\"><path d=\"M4 7h16M10 11v6M14 11v6M6 7l1 12.5a1 1 0 0 0 1 .9h8a1 1 0 0 0 1-.9L18 7M9 7V4.5h6V7\"/></svg>", "box": "<svg class=\"ic \" viewBox=\"0 0 24 24\"><path d=\"M3.5 7.8 12 3l8.5 4.8v8.4L12 21l-8.5-4.8V7.8z\"/><path d=\"M3.5 7.8 12 12.6l8.5-4.8M12 12.6V21\"/></svg>", "bag": "<svg class=\"ic \" viewBox=\"0 0 24 24\"><path d=\"M5.5 8h13l-1.1 12.2a1 1 0 0 1-1 .8H7.6a1 1 0 0 1-1-.8L5.5 8z\"/><path d=\"M9 8V6.5a3 3 0 0 1 6 0V8\"/></svg>", "user": "<svg class=\"ic \" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4.5 21c.6-3.8 3.7-6 7.5-6s6.9 2.2 7.5 6\"/></svg>"};
+const PH = '<div class="ph">B</div>';
 let allProducts = [];
 let categories  = loadCats();
 let cart        = {};            // { productId: qty }
@@ -930,7 +1004,8 @@ function saveCats() {
 
 // ══ CART ══
 function cartCount() { return Object.values(cart).reduce((a,b)=>a+b,0); }
-function cartTotal() {
+function cartTotal() { return cartSubtotal() * (1 - loyaltyPct / 100); }
+function cartSubtotal() {
   return Object.entries(cart).reduce((sum,[id,qty]) => {
     const p = allProducts.find(x => String(x.id)===String(id));
     if (!p) return sum;
@@ -984,6 +1059,7 @@ function navTo(id) {
 function updateNavBtns(activeScreen) {
   document.getElementById('navCatalog').classList.toggle('active', activeScreen === 'screenCatalog' || activeScreen === 'screenSubcat' || activeScreen === 'screenProducts');
   document.getElementById('navCart').classList.toggle('active', activeScreen === 'screenCart');
+  document.getElementById('navProfile').classList.toggle('active', activeScreen === 'screenProfile');
 }
 
 // ══ LOAD PRODUCTS ══
@@ -1010,7 +1086,7 @@ async function loadProducts() {
   // 1. Показать кеш мгновенно если есть
   try {
     const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-    if (cached && Date.now() - cached.ts < CACHE_TTL) {
+    if (cached && cached.data && cached.data.length) {
       allProducts = cached.data;
       renderCatList();
       // Обновить в фоне
@@ -1042,21 +1118,24 @@ async function fetchAndCache(showLoading) {
 }
 
 // ══ CAT LIST ══
+let homeCat = null, homeSub = null;
+function pickCat(id) { homeCat = id; homeSub = null; renderCatList(); document.getElementById('catListArea').scrollTop = 0; }
+function pickSub(v) { homeSub = v || null; renderCatList(); document.getElementById('catListArea').scrollTop = 0; }
 function renderCatList() {
-  const el = document.getElementById('catListEl');
-  el.innerHTML = categories.map(c => {
-    const count = allProducts.filter(p => p.category === c.id && p.available).length;
-    return `
-    <div class="cat-card" onclick="openCategory('${esc(c.id)}')">
-      <div class="cat-card-img">${esc(c.emoji)}</div>
-      <div class="cat-card-info">
-        <div class="cat-card-name">${esc(c.name)}</div>
-        <div class="cat-card-count">${count} товаров</div>
-      </div>
-      <div class="cat-card-arrow">›</div>
-      <div class="cat-card-glow"></div>
-    </div>`;
-  }).join('');
+  if (!categories.length) return;
+  if (homeCat === null) homeCat = (categories.find(c => c.id === 'liquid') || categories[0]).id;
+  const inCat = homeCat === 'all' ? allProducts : allProducts.filter(p => p.category === homeCat);
+  document.getElementById('catChips').innerHTML =
+    `<button class="chip ${homeCat==='all'?'on':''}" onclick="pickCat('all')">Все</button>` +
+    categories.map(c => `<button class="chip ${c.id===homeCat?'on':''}" onclick="pickCat('${esc(c.id)}')">${esc(c.name)}</button>`).join('');
+  const subs = homeCat === 'all' ? [] : [...new Set(inCat.map(p => p.subcategory).filter(Boolean))];
+  document.getElementById('subChips').style.display = subs.length ? 'flex' : 'none';
+  document.getElementById('subChips').innerHTML = subs.length ?
+    `<button class="chip ${!homeSub?'on':''}" onclick="pickSub('')">Все</button>` +
+    subs.map(x => `<button class="chip ${homeSub===x?'on':''}" onclick="pickSub('${esc(x)}')">${esc(x)}</button>`).join('') : '';
+  const list = inCat.filter(p => !homeSub || p.subcategory === homeSub).sort((a, b) => (b.available ? 1 : 0) - (a.available ? 1 : 0));
+  document.getElementById('catListEl').innerHTML = list.length ? list.map(productCardHTML).join('')
+    : `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">${IC.box}</div><p>Пока пусто</p></div>`;
 }
 
 function openCategory(catId) {
@@ -1107,7 +1186,7 @@ function showProductsFor(catId, subcat, label) {
 function renderProductsGrid(products) {
   const el = document.getElementById('productsGrid');
   if (!products.length) {
-    el.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📦</div><p>Товаров нет</p></div>';
+    el.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">${IC.box}</div><p>Товаров нет</p></div>`;
     return;
   }
   el.innerHTML = products.map(p => productCardHTML(p)).join('');
@@ -1118,9 +1197,10 @@ function productCardHTML(p) {
   return `
   <div class="product-card" onclick="openProduct('${p.id}')">
     <div class="product-img">
-      ${p.photo ? `<img src="${esc(p.photo)}" alt="${esc(p.name)}" onerror="this.parentNode.innerHTML='💨'">` : '💨'}
+      ${p.photo ? `<img loading="lazy" decoding="async" src="${esc(p.photo)}" alt="${esc(p.name)}" onerror="this.parentNode.innerHTML=PH">` : PH}
       ${p.discount > 0 ? `<div class="discount-badge">–${p.discount}%</div>` : ''}
       ${!p.available ? `<div class="unavail-overlay">Нет в наличии</div>` : ''}
+      ${p.available ? `<button class="qadd" onclick="event.stopPropagation();quickAdd('${p.id}')">${IC.plus}</button>` : ''}
     </div>
     <div class="product-body">
       <div class="product-name">${esc(p.name)}</div>
@@ -1134,6 +1214,12 @@ function productCardHTML(p) {
       </div>
     </div>
   </div>`;
+}
+
+function quickAdd(id) {
+  addToCart(id, 1);
+  tg?.HapticFeedback?.impactOccurred('light');
+  showToast('Добавлено в корзину', 'success');
 }
 
 function finalPrice(p) {
@@ -1162,7 +1248,7 @@ function onSearch(val) {
     );
     document.getElementById('searchResults').innerHTML =
       found.length ? found.map(p=>productCardHTML(p)).join('') :
-      '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>Не найдено</p></div>';
+      `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">${IC.box}</div><p>Не найдено</p></div>`;
     searchArea.style.display = 'block';
     catArea.style.display    = 'none';
   }, 250);
@@ -1178,7 +1264,7 @@ function openProduct(id) {
   const cat = categories.find(c => c.id === p.category);
   document.getElementById('modalBody').innerHTML = `
     <div class="modal-img">
-      ${p.photo ? `<img src="${esc(p.photo)}" onerror="this.parentNode.innerHTML='💨'">` : '💨'}
+      ${p.photo ? `<img loading="lazy" decoding="async" src="${esc(p.photo)}" onerror="this.parentNode.innerHTML=PH">` : PH}
       ${p.discount>0 ? `<div class="modal-img-discount">–${p.discount}%</div>` : ''}
     </div>
     <div class="modal-body">
@@ -1200,7 +1286,7 @@ function openProduct(id) {
           <button class="qty-btn" onclick="changeModalQty(1,${p.id})">+</button>
         </div>
         <button class="modal-cart-btn" ${!p.available?'disabled':''} onclick="addToCartFromModal(${p.id})">
-          ${p.available ? '🛒 В корзину' : 'Нет в наличии'}
+          ${p.available ? 'В корзину' : 'Нет в наличии'}
         </button>
       </div>
     </div>`;
@@ -1226,7 +1312,7 @@ function renderCart() {
   const el = document.getElementById('cartContent');
   const items = Object.entries(cart).filter(([id]) => allProducts.find(p=>String(p.id)===id));
   if (!items.length) {
-    el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Корзина пуста</p></div>';
+    el.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">${IC.bag}</div><p>Корзина пуста</p></div>`;
     return;
   }
   const itemsHTML = items.map(([id, qty]) => {
@@ -1235,7 +1321,7 @@ function renderCart() {
     return `
     <div class="cart-item" id="cartItem_${id}">
       <div class="cart-item-thumb">
-        ${p.photo ? `<img src="${esc(p.photo)}" onerror="this.parentNode.innerHTML='💨'">` : '💨'}
+        ${p.photo ? `<img loading="lazy" decoding="async" src="${esc(p.photo)}" onerror="this.parentNode.innerHTML=PH">` : PH}
       </div>
       <div class="cart-item-info">
         <div class="cart-item-name">${esc(p.name)}</div>
@@ -1244,7 +1330,7 @@ function renderCart() {
           <button class="cart-qty-btn" onclick="changeCartQty('${id}',-1)">−</button>
           <div class="cart-qty-val" id="cqv_${id}">${qty}</div>
           <button class="cart-qty-btn" onclick="changeCartQty('${id}',1)">+</button>
-          <div class="cart-item-del" onclick="removeFromCartUI('${id}')">🗑</div>
+          <div class="cart-item-del" onclick="removeFromCartUI('${id}')">${IC.trash}</div>
         </div>
       </div>
     </div>`;
@@ -1259,11 +1345,12 @@ function renderCart() {
         <div class="cart-total-label">Позиций</div>
         <div class="cart-total-val">${count} шт.</div>
       </div>
+      ${loyaltyPct>0 ? `<div class="cart-total-row"><div class="cart-total-label">⭐ Скидка лояльности −${loyaltyPct}%</div><div class="cart-total-val">−${(cartSubtotal()-total).toFixed(2)} Br</div></div>` : ''}
       <div class="cart-total-row">
         <div class="cart-total-label">Итого</div>
         <div class="cart-total-sum">${total.toFixed(2)} Br</div>
       </div>
-      <button class="cart-checkout-btn" onclick="openOrder()">📦 Оформить заказ</button>
+      <button class="cart-checkout-btn" onclick="openOrder()">Оформить заказ →</button>
     </div>`;
 }
 
@@ -1295,6 +1382,12 @@ function openOrder() {
   document.getElementById('orderComment').value = '';
   document.getElementById('orderOverlay').classList.add('open');
 }
+function showDone(total, pct) {
+  document.getElementById('doneSum').textContent = (total != null ? `Сумма заказа: ${Number(total).toFixed(2)} Br` : '') + (pct ? ` · скидка ${pct}%` : '');
+  document.getElementById('doneOverlay').classList.add('open');
+  tg?.HapticFeedback?.notificationOccurred('success');
+}
+function closeDone() { document.getElementById('doneOverlay').classList.remove('open'); }
 function closeOrder() { document.getElementById('orderOverlay').classList.remove('open'); }
 
 async function submitOrder() {
@@ -1309,16 +1402,12 @@ async function submitOrder() {
 
   const items = Object.entries(cart)
     .filter(([id]) => allProducts.find(p=>String(p.id)===id))
-    .map(([id,qty]) => {
-      const p  = allProducts.find(x=>String(x.id)===id);
-      const fp = p.discount>0 ? (p.price*(1-p.discount/100)) : p.price;
-      return { name: p.name, qty, price: (fp*qty).toFixed(2) };
-    });
+    .map(([id,qty]) => ({ id, qty }));
 
   const payload = {
     action: 'sendOrder',
     items,
-    total: cartTotal().toFixed(2),
+    initData: getInitData(),
     phone,
     comment,
     username,
@@ -1328,12 +1417,13 @@ async function submitOrder() {
   try {
     const r = await fetch(API_URL, { method:'POST', body: JSON.stringify(payload) });
     const d = await r.json();
-    if (d.error) throw new Error(d.error);
+    if (d.error) throw new Error(d.error === 'Forbidden' ? 'Открой магазин через бота в Telegram' : d.error);
     cart = {};
     updateCartBadge();
     closeOrder();
     renderCart();
-    showToast('Заказ отправлен! Ждите звонка ✓', 'success');
+    showDone(d.total, d.discountPct);
+    loadProfile();
     navTo('screenCatalog');
   } catch(e) {
     showToast('Ошибка отправки: ' + e.message, 'error');
@@ -1456,7 +1546,7 @@ async function doAdd() {
   };
   try {
     await adminFetch(payload);
-    localStorage.removeItem(CACHE_KEY);
+    localStorage.removeItem(CACHE_KEY); fetchAndCache(false);
     showToast('Товар добавлен ✓', 'success');
     ['aName','aDesc','aPrice','aDiscount','aStrength','aVolume','aPhoto','aPhotoUrl'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
     document.getElementById('aPreview').classList.remove('show');
@@ -1472,12 +1562,12 @@ async function renderAdminList() {
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     allProducts = (data.products||[]).map(p=>({...p, photo:safeUrl(p.photo||''), price:safePrice(p.price), name:String(p.name||'').slice(0,200)}));
-    if (!allProducts.length) { el.innerHTML='<div class="empty"><div class="empty-icon">📦</div><p>Товаров нет</p></div>'; return; }
+    if (!allProducts.length) { el.innerHTML=`<div class="empty"><div class="empty-icon">${IC.box}</div><p>Товаров нет</p></div>`; return; }
     el.innerHTML = allProducts.map(p => {
       const cat = categories.find(c=>c.id===p.category);
       return `
       <div class="admin-product-item">
-        <div class="admin-thumb">${p.photo?`<img src="${esc(p.photo)}" onerror="this.parentNode.innerHTML='💨'">`:'💨'}</div>
+        <div class="admin-thumb">${p.photo?`<img loading="lazy" decoding="async" src="${esc(p.photo)}" onerror="this.parentNode.innerHTML=PH">`:PH}</div>
         <div class="admin-info">
           <div class="admin-name">${esc(p.name)}</div>
           ${cat?`<div class="admin-cat-label">${esc(cat.emoji)} ${esc(cat.name)}${p.subcategory?' · '+esc(p.subcategory):''}</div>`:''}
@@ -1495,7 +1585,7 @@ async function renderAdminList() {
 async function toggleAvail(id) {
   try {
     await adminFetch({action:'toggleAvailable',id});
-    localStorage.removeItem(CACHE_KEY);
+    localStorage.removeItem(CACHE_KEY); fetchAndCache(false);
     showToast('Статус обновлён', 'success');
     renderAdminList();
   } catch(e) { showToast('Ошибка','error'); }
@@ -1504,7 +1594,7 @@ async function delProduct(id) {
   if (!confirm('Удалить товар?')) return;
   try {
     await adminFetch({action:'deleteProduct',id});
-    localStorage.removeItem(CACHE_KEY);
+    localStorage.removeItem(CACHE_KEY); fetchAndCache(false);
     showToast('Удалено', 'success');
     renderAdminList();
   } catch(e) { showToast('Ошибка','error'); }
@@ -1550,7 +1640,7 @@ async function doUpdate() {
   };
   try {
     await adminFetch(payload);
-    localStorage.removeItem(CACHE_KEY);
+    localStorage.removeItem(CACHE_KEY); fetchAndCache(false);
     showToast('Сохранено ✓','success');
     closeEdit();
     renderAdminList();
@@ -1633,8 +1723,43 @@ document.getElementById('navCart').addEventListener('click', () => { renderCart(
 // Also render cart when going to it via back button etc.
 const _origGoBack = goBack;
 
+
+// ══ ЛИЧНЫЙ КАБИНЕТ / ЛОЯЛЬНОСТЬ ══
+let loyaltyPct = 0, profile = null;
+try { profile = JSON.parse(localStorage.getItem('bv_profile') || 'null'); if (profile) loyaltyPct = profile.pct || 0; } catch(e) {}
+async function loadProfile() {
+  if (!getInitData()) return;
+  try {
+    const d = await adminFetch({ action: 'getProfile' });
+    profile = d; loyaltyPct = d.pct || 0;
+    localStorage.setItem('bv_profile', JSON.stringify(d));
+    renderCart(); renderProfile();
+  } catch(e) {}
+}
+function renderProfile() {
+  const el = document.getElementById('profileContent');
+  const u = tg?.initDataUnsafe?.user;
+  if (!u) { el.innerHTML = `<div class="empty"><div class="empty-icon">${IC.user}</div><p>Открой магазин через Telegram</p></div>`; return; }
+  const p = profile || { count:0, sum:0, pct:0, tier:'Новичок', next:{ at:50, pct:3, left:50 }, recent:[] };
+  const nx = p.next, prog = nx ? Math.min(100, Math.round(p.sum / nx.at * 100)) : 100;
+  const lv = [[50,3,'Лояльный'],[100,5,'Постоянный'],[150,10,'Супер лояльность']];
+  el.innerHTML = `
+    <div class="prof-card">
+      <div class="prof-ava">${esc((u.first_name || 'B')[0].toUpperCase())}</div>
+      <div><div class="prof-name">${esc(u.first_name || 'Друг')}</div><div class="prof-tier">${'★'} ${esc(p.tier)}</div></div>
+      <div class="prof-disc">${p.pct}%<span>скидка</span></div>
+    </div>
+    <div class="prof-stats"><div><b>${p.count}</b><span>заказов</span></div><div><b>${Number(p.sum).toFixed(2)} Br</b><span>на сумму</span></div></div>
+    <div class="prof-next">${nx ? `До скидки ${nx.pct}% осталось <b>${Number(nx.left).toFixed(2)} Br</b><div class="bar"><i style="width:${prog}%"></i></div>` : '🎉 У тебя максимальная скидка 10% — навсегда'}</div>
+    ${p.pending ? `<div class="prof-next">Заказов на подтверждении: <b>${p.pending}</b> — они учтутся в скидке после подтверждения менеджером</div>` : ''}
+    <div class="prof-lv">${lv.map(([m, pc, n]) => `<div class="${p.pct === pc ? 'on' : ''}"><span>от ${m} Br заказов</span><span>${n} · −${pc}%</span></div>`).join('')}</div>
+    ${p.recent && p.recent.length ? `<div class="prof-h">Последние заказы</div>` + p.recent.map(o => `<div class="prof-ord"><span>${esc(o.d)}</span><span>${Number(o.t).toFixed(2)} Br</span></div>`).join('') : ''}
+    <button class="cart-checkout-btn" style="margin:14px 12px;width:calc(100% - 24px)" onclick="tg?.openTelegramLink('https://t.me/bulavka_vape')">Написать менеджеру</button>`;
+}
+
 checkAdmin();
 loadProducts();
+loadProfile();
 </script>
 </body>
 </html>

@@ -1020,9 +1020,42 @@ function loadCats() {
   return normCats(DEFAULT_CATS.map(c => ({...c})));
 }
 categories = loadCats();
+// Сохранение категорий: «успех» показывается только после ответа сервера.
+// При ошибке список откатывается к тому, что реально лежит на сервере.
+let catSaveChain = Promise.resolve();
 function saveCats() {
-  localStorage.setItem('bv_cats_v3', JSON.stringify(categories));
-  if (isAdmin) adminFetch({ action:'saveCategories', categories }).catch(e => showToast('Категории не сохранились: ' + e.message, 'error'));
+  try { localStorage.setItem('bv_cats_v3', JSON.stringify(categories)); } catch(e) {}
+  if (!isAdmin) return Promise.resolve(true);
+  const snapshot = JSON.parse(JSON.stringify(categories));
+  catSaveChain = catSaveChain.then(async () => {
+    try {
+      await adminFetch({ action:'saveCategories', categories: snapshot });
+      showToast('Сохранено для всех ✓', 'success');
+      return true;
+    } catch (e) {
+      showToast('НЕ сохранилось на сервере: ' + e.message, 'error');
+      await pullCats();
+      return false;
+    }
+  });
+  return catSaveChain;
+}
+// Берём категории с сервера как источник правды (админу тоже)
+async function pullCats() {
+  if (!isAdmin) return;
+  try {
+    const data = await fetchJson(`${API_URL}?action=getProducts`, 15000);
+    if (data.error) throw new Error(data.error);
+    if (Array.isArray(data.categories) && data.categories.length) {
+      categories = normCats(data.categories);
+      try { localStorage.setItem('bv_cats_v3', JSON.stringify(categories)); } catch(e) {}
+    } else {
+      // На сервере пусто: отправляем текущий список, чтобы его увидели клиенты
+      await adminFetch({ action:'saveCategories', categories });
+      showToast('Категории отправлены на сервер ✓', 'success');
+    }
+  } catch (e) { showToast('Категории не синхронизировались: ' + e.message, 'error'); return; }
+  renderCatEditor(); safeRenderCatList(); fillCatSelects();
 }
 
 // ══ CART ══
@@ -1545,7 +1578,7 @@ function adminTab(tab, btn) {
   document.getElementById('lTab').style.display = tab==='list' ? 'block':'none';
   document.getElementById('cTab').style.display = tab==='cats' ? 'block':'none';
   if (tab==='list') renderAdminList();
-  if (tab==='cats') renderCatEditor();
+  if (tab==='cats') { renderCatEditor(); pullCats(); }
 }
 
 function fillCatSelects() {
@@ -1557,13 +1590,17 @@ function fillCatSelects() {
   fillSubcatSelect('aCategory','aSubcategory');
   fillSubcatSelect('eCategory','eSubcategory');
 }
-function fillSubcatSelect(catId, subcatId) {
+function fillSubcatSelect(catId, subcatId, keep) {
   const catVal = document.getElementById(catId).value;
   const cat = categories.find(c=>c.id===catVal);
   const sub = document.getElementById(subcatId);
   if (!sub) return;
+  // keep: подкатегория товара, которой нет в списке категории. Без неё при сохранении она бы стёрлась.
+  const list = [...(cat?.subcats||[])];
+  if (keep && !list.includes(keep)) list.push(keep);
   sub.innerHTML = '<option value="">— Нет —</option>' +
-    (cat?.subcats||[]).map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+    list.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+  if (keep) sub.value = keep;
   fillLineSelect(catId, subcatId, subcatId.replace('Subcategory', 'Line'));
 }
 // Список линеек выбранной подкатегории (из настроек + уже использованные у товаров)
@@ -1721,7 +1758,7 @@ function openEdit(id) {
   document.getElementById('eId').value       = p.id;
   document.getElementById('eName').value     = p.name;
   document.getElementById('eCategory').value = p.category;
-  fillSubcatSelect('eCategory','eSubcategory');
+  fillSubcatSelect('eCategory','eSubcategory', p.subcategory||'');
   document.getElementById('eSubcategory').value = p.subcategory||'';
   fillLineSelect('eCategory','eSubcategory','eLine', p.subsubcategory||'');
   document.getElementById('eDesc').value     = p.description||'';
@@ -1802,14 +1839,14 @@ function addSubcat(catId) {
   if (!cat) return;
   if (!cat.subcats) cat.subcats=[];
   if (!cat.subcats.includes(name)) cat.subcats.push(name);
-  saveCats(); input.value=''; renderCatEditor(); showToast('Добавлено','success');
+  saveCats(); input.value=''; renderCatEditor();
 }
 function delSubcat(catId, name) {
   const cat = categories.find(c=>c.id===catId);
   if (!cat) return;
   cat.subcats = (cat.subcats||[]).filter(s=>s!==name);
   if (cat.lines) delete cat.lines[name];
-  saveCats(); renderCatEditor(); showToast('Удалено');
+  saveCats(); renderCatEditor();
 }
 function addLine(catId, sub, inputId) {
   const input = document.getElementById(inputId);
@@ -1821,8 +1858,7 @@ function addLine(catId, sub, inputId) {
   if (!cat.lines[sub]) cat.lines[sub] = [];
   if (!cat.lines[sub].includes(name)) cat.lines[sub].push(name);
   saveCats(); renderCatEditor();
-  document.getElementById('se_' + catId).classList.add('open');
-  showToast('Линейка добавлена', 'success');
+  document.getElementById('se_' + catId)?.classList.add('open');
 }
 function delLine(catId, sub, name) {
   const cat = categories.find(c=>c.id===catId);
@@ -1830,8 +1866,7 @@ function delLine(catId, sub, name) {
   cat.lines[sub] = cat.lines[sub].filter(l=>l!==name);
   if (!cat.lines[sub].length) delete cat.lines[sub];
   saveCats(); renderCatEditor();
-  document.getElementById('se_' + catId).classList.add('open');
-  showToast('Удалено');
+  document.getElementById('se_' + catId)?.classList.add('open');
 }
 function addCat() {
   const emoji = document.getElementById('catEmoji').value.trim()||'📦';
@@ -1842,13 +1877,11 @@ function addCat() {
   document.getElementById('catEmoji').value='';
   document.getElementById('catName').value='';
   renderCatEditor(); renderCatList(); fillCatSelects();
-  showToast('Категория добавлена ✓','success');
 }
 function delCat(id) {
   if (!confirm('Удалить категорию?')) return;
   categories = categories.filter(c=>c.id!==id);
   saveCats(); renderCatEditor(); renderCatList(); fillCatSelects();
-  showToast('Удалено');
 }
 
 // ══ TOAST ══

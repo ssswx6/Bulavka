@@ -608,6 +608,11 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
 .ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .home-logo-icon{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#8B5CF6,#22D3EE);box-shadow:0 8px 26px rgba(139,92,246,.55),inset 0 1px 0 rgba(255,255,255,.35)}
 .home-logo-icon .ic{width:24px;height:24px;fill:#fff;stroke:none}
+/* своя иконка: файл logo.png рядом с index.html; если файла нет, остаётся капля */
+.home-logo-icon{position:relative;overflow:hidden;flex-shrink:0}
+.home-logo-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.home-logo-icon.has-img{background:none;box-shadow:none}
+.home-logo-icon.has-img .ic{display:none}
 .home-logo-text{font-family:'Unbounded','Segoe UI',sans-serif;font-weight:800;font-size:16px;letter-spacing:.8px;line-height:1.1}
 .home-header{box-shadow:0 1px 0 rgba(139,92,246,.35),0 12px 30px rgba(0,0,0,.35)}
 .icon-btn{width:40px;height:40px;border-radius:13px;color:#E9E5FF}.icon-btn .ic{width:20px;height:20px}
@@ -673,7 +678,7 @@ body{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),tra
 <div class="screen active" id="screenCatalog">
   <div class="home-header">
     <div class="home-logo">
-      <div class="home-logo-icon"><svg class="ic " viewBox="0 0 24 24"><path d="M12 2.8c3.4 4.3 6.6 7 6.6 10.7a6.6 6.6 0 0 1-13.2 0C5.4 9.8 8.6 7.1 12 2.8z"/></svg></div>
+      <div class="home-logo-icon"><img src="logo.png" alt="" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()"><svg class="ic " viewBox="0 0 24 24"><path d="M12 2.8c3.4 4.3 6.6 7 6.6 10.7a6.6 6.6 0 0 1-13.2 0C5.4 9.8 8.6 7.1 12 2.8z"/></svg></div>
       <div class="home-logo-text">BULAVKA <span>VAPE</span></div>
       <div class="home-logo-right">
         <div class="icon-btn" id="adminOpenBtn" onclick="openAdmin()" style="display:none"><svg class="ic " viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.4"/><circle cx="8" cy="17" r="2.4"/></svg></div>
@@ -1055,7 +1060,7 @@ async function pullCats() {
       showToast('Категории отправлены на сервер ✓', 'success');
     }
   } catch (e) { showToast('Категории не синхронизировались: ' + e.message, 'error'); return; }
-  renderCatEditor(); safeRenderCatList(); fillCatSelects();
+  normProductCats(); renderCatEditor(); safeRenderCatList(); fillCatSelects();
 }
 
 // ══ CART ══
@@ -1144,6 +1149,7 @@ async function loadProducts() {
     const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
     if (cached && cached.data && cached.data.length) {
       allProducts = cached.data;
+      normProductCats();
       safeRenderCatList();
       // Обновить в фоне
       fetchAndCache(false);
@@ -1187,6 +1193,7 @@ async function fetchAndCache(showLoading) {
         categories = normCats(data.categories);
         try { localStorage.setItem('bv_cats_v3', JSON.stringify(categories)); } catch(e) {}
       }
+      normProductCats();
       try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: allProducts })); } catch(e) {}
       ok = true;
     } catch (e) {
@@ -1210,6 +1217,18 @@ function safeRenderCatList() {
   }
 }
 
+// В колонке category таблицы можно писать код (liquid) или название категории (Снюс, Пластинки):
+// название приводим к коду категории, чтобы товар попал в нужную вкладку.
+function normProductCats() {
+  const byName = {};
+  categories.forEach(c => { byName[String(c.name).trim().toLowerCase()] = c.id; });
+  allProducts.forEach(p => {
+    if (categories.some(c => c.id === p.category)) return;
+    const id = byName[String(p.category).trim().toLowerCase()];
+    if (id) p.category = id;
+  });
+}
+
 // Категории: гарантируем поля subcats[] и lines{}
 function normCats(list) {
   return (Array.isArray(list) ? list : []).map(c => ({
@@ -1231,8 +1250,19 @@ function linesFor(catId, sub, products) {
   const conf = ((cat && cat.lines && cat.lines[sub]) || []).filter(l => used.includes(l));
   return conf.concat(used.filter(l => !conf.includes(l)));
 }
+// В таблице категорию товара можно писать и названием («Снюс», «Пластинки»), а не только кодом
+function normProductCats() {
+  const byName = {};
+  categories.forEach(c => { byName[String(c.name).trim().toLowerCase()] = c.id; });
+  allProducts.forEach(p => {
+    if (categories.some(c => c.id === p.category)) return;
+    const id = byName[String(p.category || '').trim().toLowerCase()];
+    if (id) p.category = id;
+  });
+}
 function renderCatList() {
   if (!categories.length) categories = normCats(DEFAULT_CATS.map(c => ({...c})));
+  normProductCats();
   if (homeCat === null) homeCat = (categories.find(c => c.id === 'liquid') || categories[0]).id;
   const inCat = homeCat === 'all' ? allProducts : allProducts.filter(p => p.category === homeCat);
   document.getElementById('catChips').innerHTML =
@@ -1712,6 +1742,8 @@ async function renderAdminList() {
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     allProducts = (data.products||[]).map(p=>({...p, photo:safeUrl(p.photo||''), price:safePrice(p.price), name:String(p.name||'').slice(0,200)}));
+    normProductCats();
+    normProductCats();
     if (!allProducts.length) { el.innerHTML=`<div class="empty"><div class="empty-icon">${IC.box}</div><p>Товаров нет</p></div>`; return; }
     el.innerHTML = allProducts.map(p => {
       const cat = categories.find(c=>c.id===p.category);
